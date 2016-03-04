@@ -147,6 +147,7 @@ void Listener::uv_read_callback( uv_stream_t * stream ,
     if ( session == nullptr )
     {
         LOG_DEBUG( "Session is nullptr!" );
+        delete buf->base;
         return;
     }
 
@@ -155,6 +156,7 @@ void Listener::uv_read_callback( uv_stream_t * stream ,
         LOG_DEBUG_UV( nread );
         uv_close( ( uv_handle_t* ) &session->uv_tcp_ , 
                   Listener::uv_close_callback );
+        delete buf->base;
         return;
     }
 

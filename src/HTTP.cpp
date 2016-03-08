@@ -137,6 +137,12 @@ HTTPRequest::HTTPRequest( std::string url , std::string method )
     this->domain_ = url_parse.Domain( );
     this->url_    = url_parse.Path( );
     this->port_   = url_parse.Port( );
+
+    if ( this->port_ == 0 )
+    {
+        this->port_ = 80;
+    }
+
     this->method_ = method;
 }
 

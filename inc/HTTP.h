@@ -108,7 +108,7 @@ public:
 private:
 
     std::string                         ip_             = "";
-    int                                 port_           = 0;
+    int                                 port_           = 80;
     std::string                         url_            = "";
     std::string                         method_         = "";
     std::string                         domain_         = "";

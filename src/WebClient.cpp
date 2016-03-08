@@ -24,6 +24,7 @@ limitations under the License.
 * Modifed       : When      | Who       | What
 ***********************************************************************************/
 
+#include <thread>
 #include "WebClient.h"
 
 NS_MARATON_BEGIN
@@ -34,6 +35,8 @@ WebClient::WebClient( )
     this->Header( "Author" , "YHGenomics/Maraton" );
     this->Header( "VHTTP" , "Alpha/0.0.1" );
     this->Header( "Accept" , "*/*" );
+
+    uv_loop_init( &this->uv_loop_ );
 }
 
 void WebClient::Get( std::string url ,
@@ -43,8 +46,9 @@ void WebClient::Get( std::string url ,
                                                      url , 
                                                      "GET");
     uptr<WebClientRequestToken> token   = make_uptr( WebClientRequestToken );
-    token->req_                          = move_ptr( req );
-    token->callback_                     = callback;
+    token->req_                         = move_ptr( req );
+    token->callback_                    = callback;
+    token->uv_loop                      = uv_default_loop( );
 
     this->FillHeader( token->req_.get( ) );
     
@@ -59,25 +63,27 @@ void WebClient::Post( std::string url ,
                                                      url , 
                                                      "POST");
     uptr<WebClientRequestToken> token   = make_uptr( WebClientRequestToken );
-    token->req_                          = move_ptr( req );
-    token->callback_                     = callback;
+    token->req_                         = move_ptr( req );
+    token->callback_                    = callback;
+    token->uv_loop                      = uv_default_loop( );
     
-    this->FillHeader   ( token->req_.get( ) );
+    this->FillHeader     ( token->req_.get( ) );
     token->req_->Content ( make_uptr( Buffer , data ) );
-    this->QueryDns     ( move_ptr( token ) );
+    this->QueryDns       ( move_ptr( token ) );
 }
 
 void WebClient::PostFile( std::string url , 
-                           std::string file_token ,
-                           FILE * pfile ,
-                           CallbackResponseType callback )
+                          std::string file_token ,
+                          FILE * pfile ,
+                          CallbackResponseType callback )
 {
     uptr<HTTPRequest> req               = make_uptr( HTTPRequest ,
                                                      url ,
                                                      "POST");
     uptr<WebClientRequestToken> token   = make_uptr( WebClientRequestToken );
-    token->req_                          = move_ptr( req );
-    token->callback_                     = callback;
+    token->req_                         = move_ptr( req );
+    token->callback_                    = callback;
+    token->uv_loop                      = uv_default_loop( );
     
     req->Data( pfile );
     this->FillHeader( token->req_.get( ) );
@@ -111,10 +117,11 @@ void WebClient::DownloadFile( std::string url ,
                                                      url , 
                                                      "GET");
     uptr<WebClientRequestToken> token   = make_uptr( WebClientRequestToken );
-    token->req_                          = move_ptr( req );
-    token->rep_                          = make_uptr( HTTPResponse ); 
-    token->callback_                     = callback;
-
+    token->req_                         = move_ptr( req );
+    token->rep_                         = make_uptr( HTTPResponse ); 
+    token->callback_                    = callback;
+    token->uv_loop                      = uv_default_loop( );
+   
     token->rep_->ReadCallback( [pfile] ( HTTPResponse* rep ,
                                uptr<Buffer>  buf )
     {
@@ -124,6 +131,65 @@ void WebClient::DownloadFile( std::string url ,
     this->FillHeader( token->req_.get( ) );
 
     this->QueryDns( move_ptr( token ) );
+}
+
+uptr<HTTPResponse> WebClient::GetSync( std::string url )
+{   
+    bool isWaiting                      = true;
+    uptr<HTTPResponse> ret              = nullptr;
+    uptr<HTTPRequest> req               = make_uptr( HTTPRequest , 
+                                                     url , 
+                                                     "GET");
+    uptr<WebClientRequestToken> token   = make_uptr( WebClientRequestToken );
+    token->req_                         = move_ptr( req );
+    token->callback_                    = [ &isWaiting , &ret ] ( uptr<HTTPResponse> rep)
+    { 
+        isWaiting = false;
+        ret = move_ptr( rep );
+    };
+    token->uv_loop                      = &this->uv_loop_;
+
+    this->FillHeader( token->req_.get( ) );
+    
+    this->QueryDns( move_ptr( token ) );
+
+    while ( isWaiting )
+    {
+        uv_run( &this->uv_loop_ , UV_RUN_ONCE );
+        std::this_thread::sleep_for( std::chrono::milliseconds( 1 ) );
+    }
+
+    return move_ptr( ret );
+}
+
+uptr<HTTPResponse> WebClient::PostSync( std::string url , std::string data )
+{
+    bool isWaiting                      = true;
+    uptr<HTTPResponse> ret              = nullptr;
+    
+    uptr<HTTPRequest> req               = make_uptr( HTTPRequest ,
+                                                     url , 
+                                                     "POST");
+    uptr<WebClientRequestToken> token   = make_uptr( WebClientRequestToken );
+    token->req_                         = move_ptr( req );
+    token->callback_                    = [ &isWaiting , &ret ] ( uptr<HTTPResponse> rep)
+    { 
+        isWaiting = false;
+        ret = move_ptr( rep );
+    };
+    token->uv_loop                      = &this->uv_loop_;
+    
+    this->FillHeader     ( token->req_.get( ) );
+    token->req_->Content ( make_uptr( Buffer , data ) );
+    this->QueryDns       ( move_ptr( token ) );
+
+    while ( isWaiting )
+    {
+        uv_run( &this->uv_loop_ , UV_RUN_ONCE );
+        std::this_thread::sleep_for( std::chrono::milliseconds( 1 ) );
+    }
+
+    return move_ptr( ret );
 }
 
 void WebClient::Header( std::string key , std::string value )
@@ -140,13 +206,13 @@ void WebClient::QueryDns( uptr<WebClientRequestToken> t )
 
     token->uv_tcp.data              = token;
     token->uv_connect.data          = token;
-    token->addrinfo_.ai_family       = PF_INET;
-    token->addrinfo_.ai_socktype     = SOCK_STREAM;
-    token->addrinfo_.ai_protocol     = IPPROTO_TCP;
-    token->addrinfo_.ai_flags        = 0;
-    token->uv_getaddrinfo.data      = token;
+    token->addrinfo_.ai_family      = PF_INET;
+    token->addrinfo_.ai_socktype    = SOCK_STREAM;
+    token->addrinfo_.ai_protocol    = IPPROTO_TCP;
+    token->addrinfo_.ai_flags       = 0;
+    token->uv_getaddrinfo.data      = token;  
 
-    int r = uv_getaddrinfo( uv_default_loop( ) ,
+    int r = uv_getaddrinfo( token->uv_loop ,
                             &token->uv_getaddrinfo ,
                             WebClient::uv_process_resolved ,
                             token->req_->Domain( ).c_str( ) ,
@@ -219,6 +285,8 @@ void WebClient::uv_process_resolved( uv_getaddrinfo_t * req ,
     WebClientRequestToken *
         token = scast<WebClientRequestToken*>( req->data );
 
+    
+
     if ( token == nullptr )
     {
         LOG_DEBUG( "operator is nullptr" );
@@ -248,7 +316,7 @@ void WebClient::uv_process_resolved( uv_getaddrinfo_t * req ,
 
     token->req_->Header( "Host" , token->req_->domain_ );
 
-    uv_tcp_init( uv_default_loop( ) , &token->uv_tcp );
+    uv_tcp_init( token->uv_loop , &token->uv_tcp );
 
     result = uv_tcp_connect( &token->uv_connect ,
                              &token->uv_tcp ,

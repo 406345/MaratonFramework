@@ -48,7 +48,7 @@ public:
 
     void Post       ( std::string url , 
                       std::string data , 
-                      CallbackResponseType callback );
+                      CallbackResponseType callback ); 
 
     void PostFile   ( std::string url , 
                       std::string file_token , 
@@ -56,8 +56,13 @@ public:
                       CallbackResponseType callback );
 
     void DownloadFile ( std::string url ,
-                      FILE* pfile ,
-                      CallbackResponseType callback);
+                        FILE* pfile ,
+                        CallbackResponseType callback);
+
+    uptr<HTTPResponse> GetSync  ( std::string url );
+                       
+    uptr<HTTPResponse> PostSync ( std::string url , 
+                                  std::string data);
 
     void Header( std::string key, std::string value );
 
@@ -73,7 +78,7 @@ private:
 
         std::string       ip_                = "";
         std::string       address_            = "";
-        int               port_               = 0;
+        int               port_               = 80;
         uv_loop_t*        uv_loop            = nullptr;
         uv_getaddrinfo_t  uv_getaddrinfo     = { 0 };
         addrinfo          addrinfo_           = { 0 };
@@ -100,6 +105,7 @@ private:
 
     void QueryDns                      ( uptr<WebClientRequestToken> token );
     void FillHeader                    ( HTTPRequest* req );
+
     static void uv_send_request         ( WebClientRequestToken* token );
     static void uv_process_resolved     ( uv_getaddrinfo_t * req , 
                                           int status , 
@@ -117,6 +123,7 @@ private:
     static void uv_close_callback       ( uv_handle_t* handle );
 
     std::map<std::string , std::string> header_;
+    uv_loop_t                           uv_loop_ = { 0 };
 };
 
 NS_MARATON_END

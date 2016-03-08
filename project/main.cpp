@@ -24,26 +24,26 @@ limitations under the License.
 * Modifed       : When      | Who       | What
 ***********************************************************************************/
 
-//#include "MRT.h"
-//#include <thread>
-//#include <ostream>
-//#include <string>
-//#include <Manager.h>
-//
-//using namespace MRT;
-//using namespace std;
-//
-//int main( )
-//{
-//
-//    MRT::Manager<MRT::Buffer> mgr;
-//
-//    mgr.push( make_sptr( MRT::Buffer ) );
-//
-//    size_t i = SystemInfo::CPUNum( );
-//    size_t j = SystemInfo::CPUSpeed( 1 );
-//    size_t m = SystemInfo::MemorySize( );
-//    size_t f = SystemInfo::MemoryFreeSize( );
-//    size_t t = SystemInfo::Time( );
-//    return 0;
-//}
+#include "MRT.h"
+#include <thread>
+#include <ostream>
+#include <string>
+#include <Manager.h>
+
+using namespace MRT;
+using namespace std;
+
+int main( )
+{
+    MRT::Manager<MRT::Buffer> mgr;
+    WebClient client;
+
+    auto ret = client.GetSync( "http://www.baidu.com" );
+
+    Logger::Log( ret->Content( )->Data( ) );
+
+    auto ret2 = client.PostSync( "http://www.baidu.com" , "" );
+     Logger::Log( ret2->Content( )->Data( ) );
+
+    return 0;
+}

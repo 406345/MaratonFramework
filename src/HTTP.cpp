@@ -608,6 +608,12 @@ void HTTPResponse::Parse( uptr<Buffer> data )
                     }
                     else
                     {
+
+                        if ( this->content_ == nullptr )
+                        {
+                            this->content_ = make_uptr( MRT::Buffer , 1024 * 1024 );
+                        }
+
                         if ( this->content_length_ > MAX_CIRCLE_BUFFER_SIZE )
                         {
                             return;

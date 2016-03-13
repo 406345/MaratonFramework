@@ -38,12 +38,20 @@
 //    MRT::Manager<MRT::Buffer> mgr;
 //    WebClient client;
 //
-//    auto ret = client.GetSync( "http://www.baidu.com" );
+//    client.Post( "http://10.0.0.11:4243/images/create?fromImage=10.0.0.15:5000/yhfsdl" , "" , [ ] ( uptr<HTTPResponse> rep )
+//    { 
+//        printf( rep->Content()->Data() );
+//        
+//    } );
 //
-//    Logger::Log( ret->Content( )->Data( ) );
+//    while ( true )
+//    {
+//        MRT::Maraton::Instance( )->Run( );
+//    }
+//    //Logger::Log( ret->Content( )->Data( ) );
 //
-//    auto ret2 = client.PostSync( "http://www.baidu.com" , "" );
-//    Logger::Log( ret2->Content( )->Data( ) );
+//    //auto ret2 = client.PostSync( "http://www.baidu.com" , "" );
+//    //Logger::Log( ret2->Content( )->Data( ) );
 //
 //    return 0;
 //}

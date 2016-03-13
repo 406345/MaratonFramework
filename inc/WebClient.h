@@ -36,7 +36,8 @@ limitations under the License.
 NS_MARATON_BEGIN 
 
 typedef std::function<void( uptr<HTTPResponse> )>  CallbackResponseType;
- 
+typedef std::function<void( HTTPResponse* , uptr<Buffer> )>  CallbackStreamType;
+
 class WebClient
 {
 public:
@@ -46,9 +47,16 @@ public:
     void Get        ( std::string url , 
                       CallbackResponseType callback );
 
+    void GetX       ( std::string url , 
+                      CallbackStreamType callback );
+
     void Post       ( std::string url , 
                       std::string data , 
                       CallbackResponseType callback ); 
+
+    void PostX      ( std::string url , 
+                      std::string data , 
+                      CallbackStreamType callback ); 
 
     void PostFile   ( std::string url , 
                       std::string file_token , 
@@ -72,20 +80,20 @@ private:
     {
     public:
 
-        uptr<HTTPRequest>    req_             = nullptr;
-        uptr<HTTPResponse>   rep_             = nullptr;
-        CallbackResponseType callback_        = nullptr; 
-
-        std::string       ip_                = "";
-        std::string       address_            = "";
-        int               port_               = 80;
-        uv_loop_t*        uv_loop            = nullptr;
-        uv_getaddrinfo_t  uv_getaddrinfo     = { 0 };
-        addrinfo          addrinfo_           = { 0 };
-        sockaddr_in       addr_in_            = { 0 };
+        uptr<HTTPRequest>    req_           = nullptr;
+        uptr<HTTPResponse>   rep_           = nullptr;
+        CallbackResponseType callback_      = nullptr; 
+                                         
+        std::string          ip_            = "";
+        std::string          address_       = "";
+        int                  port_          = 80;
+        uv_loop_t*           uv_loop        = nullptr;
+        uv_getaddrinfo_t     uv_getaddrinfo = { 0 };
+        addrinfo             addrinfo_      = { 0 };
+        sockaddr_in          addr_in_       = { 0 };
                                             
-        uv_connect_t      uv_connect         = { 0 };
-        uv_tcp_t          uv_tcp             = { 0 };
+        uv_connect_t         uv_connect     = { 0 };
+        uv_tcp_t             uv_tcp         = { 0 };
 
         void InvokeCallback( uptr<HTTPResponse> rep )
         {

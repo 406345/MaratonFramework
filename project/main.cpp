@@ -38,9 +38,9 @@
 //    MRT::Manager<MRT::Buffer> mgr;
 //    WebClient client;
 //
-//    client.Post( "http://10.0.0.11:4243/images/create?fromImage=10.0.0.15:5000/yhfsdl" , "" , [ ] ( uptr<HTTPResponse> rep )
+//    client.PostX( "http://10.0.0.11:4243/images/create?fromImage=10.0.0.15:5000/yhfsdl" , "" , [ ] ( HTTPResponse * rep , uptr<Buffer> buf )
 //    { 
-//        printf( rep->Content()->Data() );
+//        printf( buf->Data() );
 //        
 //    } );
 //

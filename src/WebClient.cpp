@@ -55,6 +55,28 @@ void WebClient::Get( std::string url ,
     this->QueryDns( move_ptr( token ) );
 }
 
+void WebClient::GetX( std::string url , CallbackStreamType callback )
+{
+    uptr<HTTPRequest> req               = make_uptr( HTTPRequest , 
+                                                     url , 
+                                                     "GET");
+    uptr<WebClientRequestToken> token   = make_uptr( WebClientRequestToken );
+    token->req_                         = move_ptr( req );
+    token->rep_                         = make_uptr( HTTPResponse ); 
+    //token->callback_                    = callback;
+    token->uv_loop                      = uv_default_loop( );
+   
+    token->rep_->ReadCallback( [callback] ( HTTPResponse* rep ,
+                               uptr<Buffer>  buf )
+    {
+        callback( rep , move_ptr( buf ) );
+    });
+
+    this->FillHeader( token->req_.get( ) );
+
+    this->QueryDns( move_ptr( token ) );
+}
+
 void WebClient::Post( std::string url , 
                       std::string data , 
                       CallbackResponseType callback )
@@ -70,6 +92,28 @@ void WebClient::Post( std::string url ,
     this->FillHeader     ( token->req_.get( ) );
     token->req_->Content ( make_uptr( Buffer , data ) );
     this->QueryDns       ( move_ptr( token ) );
+}
+
+void WebClient::PostX( std::string url , std::string data , CallbackStreamType callback )
+{
+    uptr<HTTPRequest> req               = make_uptr( HTTPRequest , 
+                                                     url , 
+                                                     "POST");
+    uptr<WebClientRequestToken> token   = make_uptr( WebClientRequestToken );
+    token->req_                         = move_ptr( req );
+    token->rep_                         = make_uptr( HTTPResponse ); 
+    //token->callback_                    = callback;
+    token->uv_loop                      = uv_default_loop( );
+   
+    token->rep_->ReadCallback( [callback] ( HTTPResponse* rep ,
+                               uptr<Buffer>  buf )
+    {
+        callback( rep , move_ptr( buf ) );
+    });
+
+    this->FillHeader( token->req_.get( ) );
+
+    this->QueryDns( move_ptr( token ) );
 }
 
 void WebClient::PostFile( std::string url , 
@@ -251,7 +295,6 @@ void WebClient::uv_send_request( WebClientRequestToken* token )
                         1,  
                         WebClient::uv_write_callback );
     LOG_DEBUG_UV( r ); 
-    LOG_DEBUG( "%s" , write_token->buffer->base );
 
     if ( body_buf != nullptr &&
          body_buf->Size() > 0)

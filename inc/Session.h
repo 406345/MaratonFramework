@@ -35,13 +35,19 @@ NS_MARATON_BEGIN
 
 class Operator;
 
+// @Description : Base class of all sessions
 class Session
 {
 public:
 
+    // Default constructor
     Session( );
+
     virtual ~Session();
 
+    // Close the session
+    // This function will close the network
+    // connection
     void close  ( );
 
     PP_DEF( std::string , ip_address )
@@ -51,10 +57,21 @@ protected:
     
     Operator* opt_ =  nullptr;
 
+    // Send data to remote
+    // @data : data to send
             void Send       ( uptr<Buffer> data );
+    
+    // Callback when session is connnecting to remote server
     virtual void OnConnect  ()                    {};
+
+    // Callback when network data is arrived
+    // @data : received data 
     virtual void OnRead     ( uptr<Buffer> data ) {};
+
+    // Callback when the data has been send to remote server
     virtual void OnWrite    ( uptr<Buffer> data ) {};
+
+    // Callback when the session is closed
     virtual void OnClose    ()                    {};
 
 private:

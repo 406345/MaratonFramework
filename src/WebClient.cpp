@@ -117,7 +117,6 @@ void WebClient::PostX( std::string url , std::string data , CallbackStreamType c
 }
 
 void WebClient::PostFile( std::string url , 
-                          std::string file_token ,
                           FILE * pfile ,
                           CallbackResponseType callback )
 {

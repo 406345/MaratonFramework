@@ -33,20 +33,25 @@ limitations under the License.
 
 NS_MARATON_BEGIN
 
+// @Description : Helpe get the system information
 class SystemInfo
 {
 public:
 
+
+    // Get the total memory size
     static size_t MemorySize( )
     {
         return uv_get_total_memory( );
     };
 
+    // Get the free memory size
     static size_t MemoryFreeSize( )
     {
         return uv_get_free_memory( );
     };
 
+    // Get the cpu core number
     static int CPUNum( )
     {
         int cpu_count            = 0;
@@ -58,6 +63,8 @@ public:
         return cpu_count;
     };
 
+    // Get the cpu speed
+    // @id : cpu index
     static int CPUSpeed( int id )
     {
         int cpu_speed            = 0;
@@ -83,6 +90,7 @@ public:
         return cpu_speed;
     };
 
+    // Get the current work directory
     static std::string CurrentDirectory( )
     {
         char    path[1024] = { 0 };
@@ -93,6 +101,8 @@ public:
         return std::string( path , path_len );
     };
 
+    // Get the current time in microsecond 
+    // This function may not work in some version of windows
     static size_t Time( )
     {
         return ( uv_hrtime( ) / 1000 );

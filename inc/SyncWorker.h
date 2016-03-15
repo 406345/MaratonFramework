@@ -34,25 +34,48 @@ limitations under the License.
 
 NS_MARATON_BEGIN
 
+// @Description : Help create a syncwork in main thread
+//                The syncwork is in main thread , so it can block the
+//                thread. DON'T run any heavy work in it!
 class SyncWorker
 {
 public:
 
     typedef std::function<bool( SyncWorker* )> SyncworkerCallbackType;
 
+    // Create a syncworker, the worker will callback every 1 ms
+    // @work_callback  : callback, return true if work is done
+    // @after_callback : callback, return true if work is done
+    // @data           : data to input
     static SyncWorker* Create       ( const SyncworkerCallbackType  work_callback , 
                                       const SyncworkerCallbackType  after_callback , 
                                       void* data );
 
+    // Create a syncworker, the worker will callback every [time_span] ms
+    // @time_span      : loop time duration
+    // @work_callback  : callback, return true if work is done
+    // @after_callback : callback, return true if work is done
+    // @data           : data to input
     static SyncWorker* Create       ( const size_t time_span,
                                       const SyncworkerCallbackType  work_callback , 
                                       const SyncworkerCallbackType  after_callback , 
                                       void* data );
+
+    // Stop the worker
+    // @worker : worker to be stopped
     static void        Stop         ( SyncWorker * worker );
 
+    // Get the data 
     void*              Data         () { return this->data_; };
+
+    // Set the data
+    // @value : data to be set
     void               Data         ( void* value ) { this->data_ = value; };
+
+    // Get the loop count
     size_t             LoopCount    () { return loop_count_; };
+    
+    // Get the loop duration
     size_t             LoopTime     () { return loop_time_ * loop_count_; };
 
 private:

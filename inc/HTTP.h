@@ -226,42 +226,6 @@ private:
     uptr<HTTPResponse>      rep_;
 };
 
-//// ===========================================
-//// WebRequestConnector
-//// ===========================================
-//class WebRequestConnector :
-//    public Connector
-//{
-//public:
-//
-//    WebRequestConnector ( uptr<HTTPRequest> req , 
-//                          callback_response_t callback_);
-//    ~WebRequestConnector( );
-//protected:
-//
-//    virtual Session * CreateSession( ) override;
-//
-//    virtual void OnSessionOpen    ( Session * session ) override;
-//
-//    virtual void OnSessionClose   ( Session * session ) override;
-//
-//private:
-//
-//    uptr<HTTPRequest> req_;
-//    callback_response_t callback_response_;
-//};
-//
-//// ===========================================
-//// WebClient
-//// ===========================================
-//class WebClient
-//{
-//public:
-//
-//    void get( std::string url , 
-//              callback_response_t callback_);
-//};
-
 NS_MARATON_END
 
 #endif // !HTTP_H_

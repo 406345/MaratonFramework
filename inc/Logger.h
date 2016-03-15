@@ -32,10 +32,14 @@ limitations under the License.
 #include <stdarg.h>
 #include "Timer.h"
 
+// @Description : static class, print message to console
 class Logger
 {
 public:
 
+    // print message with sys channel
+    // @fmt  : format, using % to indicate a parameter, not %d or something else.
+    // @args : parameter values
     template<typename ...Types>
     static void Sys( const char* fmt, Types... args)
     {
@@ -56,6 +60,9 @@ public:
 
     }
 
+    // print message with error channel
+    // @fmt  : format, using % to indicate a parameter, not %d or something else.
+    // @args : parameter values
     template<typename ...Types>
     static void Error( const char* fmt, Types... args )
     {
@@ -73,6 +80,9 @@ public:
 #endif    
     }
 
+    // print message with normal channel
+    // @fmt  : format, using % to indicate a parameter, not %d or something else.
+    // @args : parameter values
     template<typename ...Types>
     static void Log( const char* fmt, Types... args )
     { 
@@ -80,6 +90,7 @@ public:
         Tprintf( fmt , args... );
         Tprintf( "\r\n" );
     }
+
 private:
 
     Logger( )

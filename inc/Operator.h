@@ -35,23 +35,39 @@ limitations under the License.
 
 NS_MARATON_BEGIN
 
+// @Description : Base class for Connector and Listener.
 class Operator
 {
 public:
 
+    // Default Constructure
+    // @address : hostname, ip address
+    // @port    : connect or listen port
     Operator( std::string address , int port ); 
 
     virtual     ~Operator   ( );
+
+    // Get ip address
     std::string IP          ( );
+
+    // Get ip or uri address
     std::string Address     ( );
+
+    // Get port
     int         Port        ( ); 
 
 protected:
 
+    // Create a session 
     virtual Session * CreateSession    ( ) = 0;
+
+    // Callback when a session is created
     virtual void      OnSessionOpen   ( Session * session ) = 0;
+
+    // Callback after a session is closed
     virtual void      OnSessionClose  ( Session * session ) = 0;
 
+    // Close a session
     virtual void      CloseSession     ( Session* session ) = 0;
     virtual void      DoWork           ( ) = 0;
 

@@ -31,28 +31,62 @@ limitations under the License.
 #include "Macro.h"
 
 NS_MARATON_BEGIN
-
+// @Description : Storage data and it's length
 class Buffer
 {
 public:
 
+    // Default constructure      
     Buffer();
+
     ~Buffer();
 
+    // Initial with the data size
+    // @size : Buffer size
     Buffer( size_t size );
+
+    // Initial with the string 
+    // @string  : String data
     Buffer( std::string string );
+
+    // Initial with the data pointer and it's length
+    // @data   : data pointer
+    // @size   : data size
+    // @note   : the data size must longer than the size
     Buffer( const char* data , size_t size );
+
+    // Initial with the other buffer, copy it's data
+    // @buffer : Buffer pointer
     Buffer( Buffer& buffer );
+    
+    // Initial with the other buffer, move it's data
+    // @buffer : Buffer pointer
     Buffer( Buffer&& buffer );
     Buffer& operator =( Buffer& buffer );
     Buffer& operator =( Buffer&& buffer );
     Buffer& operator +=( const Buffer& buffer );
+
+    // Get data at the index
+    // @index : position
     char    operator[]( const size_t index );
 
+    // Get data
     char*   Data();
+
+    // Set the data
+    // @value : data pointer
+    // @size  : size of the data
     void    Data( const char * value , size_t size );
+
+    // Get the buffer size
     size_t  Size() { return this->size_; }
+
+    // Insert data to the tail of the buffer
+    // @data : data pointer
+    // @len  : size of the data
     void    Push( const char* data , size_t len );
+
+    // Empty the buffer
     void    Zero();
 
 private:

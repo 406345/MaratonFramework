@@ -31,6 +31,9 @@ limitations under the License.
 
 NS_MARATON_BEGIN
 
+// @Description : Singleton template class
+//                When you use the class,you MUST make your constructor 
+//                private 
 template<class T>
 class Singleton
 {

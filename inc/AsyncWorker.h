@@ -43,23 +43,37 @@ public:
     virtual void OnAsyncWorkFinish( AsyncWorker* worker ) {};
 };
 
+// @Description : Create a async worker in other thread        
+// @Example     : AsyncWorker::Create
 class AsyncWorker
 {
 public:
-
+    
     typedef std::function<void( AsyncWorker* )> CallbackType;
 
+    // Create a asyncworker
+    // @action  : work callback
+    // @finish  : finish callback this callback will
+    //            be invoked after working is done
+    // @data    : input data pointer
     static AsyncWorker* Create( CallbackType acting ,
                                 CallbackType finish ,
                                 void* data );
 
+    // Create a asyncworker
+    // @action  : work callback
+    // @data    : input data pointer
     static AsyncWorker* Create( CallbackType acting ,
                                 void* data );
 
+    // Stop the asyncworker
+    // @worker  : worker pointer
     static void         Stop( AsyncWorker* worker );
 
-
+    // Set the asyncworker data
     void  Data( void* value ) { this->data_ = value; };
+
+    // Get the asyncworker data
     void* Data() { return this->data_; };
 
 

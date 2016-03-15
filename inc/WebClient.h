@@ -38,40 +38,76 @@ NS_MARATON_BEGIN
 typedef std::function<void( uptr<HTTPResponse> )>  CallbackResponseType;
 typedef std::function<void( HTTPResponse* , uptr<Buffer> )>  CallbackStreamType;
 
+// @Description : a simple http client
 class WebClient
 {
 public:
 
+    // Default constructor
     WebClient ( );
 
+    // Send a get requrest to the url 
+    // @url      : url
+    // @callback : callback when the server responsed
     void Get        ( std::string url , 
                       CallbackResponseType callback );
 
+    // Send a get requrest to the url
+    // @url      : url
+    // @callback : callback when the server responsed
     void GetX       ( std::string url , 
                       CallbackStreamType callback );
 
+    // Send a post requrest to the url 
+    // @url      : url
+    // @data     : post data
+    // @callback : callback when the server responsed
     void Post       ( std::string url , 
                       std::string data , 
                       CallbackResponseType callback ); 
 
+    // Send a post requrest to the url 
+    // @url      : url
+    // @data     : post data
+    // @callback : callback when the server responsed
     void PostX      ( std::string url , 
                       std::string data , 
                       CallbackStreamType callback ); 
 
+    // Post a file to the url 
+    // @url      : url
+    // @pfile    : file pointer
+    // @callback : callback when the server responsed
     void PostFile   ( std::string url , 
-                      std::string file_token , 
                       FILE* pfile , 
                       CallbackResponseType callback );
 
+    // Download the url into a file 
+    // @url      : url
+    // @pfile    : file pointer
+    // @callback : callback when the server responsed
     void DownloadFile ( std::string url ,
                         FILE* pfile ,
                         CallbackResponseType callback);
 
+    // Send a get requrest to the url and wait for response
+    // This function will block the thread
+    // @url      : url
+    // @callback : callback when the server responsed
     uptr<HTTPResponse> GetSync  ( std::string url );
                        
+    // Send a post requrest to the url and wait for response
+    // This function will block the thread
+    // @url      : url
+    // @data     : data to post
+    // @callback : callback when the server responsed
     uptr<HTTPResponse> PostSync ( std::string url , 
                                   std::string data);
 
+
+    // Set the request head protperties
+    // @key   : property name
+    // @value : property value
     void Header( std::string key, std::string value );
 
 private:

@@ -33,34 +33,57 @@ limitations under the License.
 
 NS_MARATON_BEGIN
 
+// @Description : Circle buffer class
 class CircleBuffer
 {
 public:
 
+    // Default constructure
     CircleBuffer ( );
 
+    // Default destructure
     ~CircleBuffer( );
 
+    // Push data to the tail of the buffer
+    // @buf : Buffer to input
     virtual bool Push           ( Buffer & buf );
+
+    // Push data to the tail of the buffer
+    // @data : data pointer
+    // @len  : size of the data
     virtual bool Push           ( const char* data , size_t len );
+
+    // Push data to the tail of the buffer
+    // @buf : Buffer to input
     virtual bool Push           ( uptr<Buffer> buf );
+
+    // Empty the circlebuffer
     void         Clear          ();
 
+    // Pop data from the circlebuffer, 
+    // return nullptr if there is not enough data to pop
+    // return uptr<Buffer> if success
+    // @len : size to pop
     virtual uptr<Buffer> Pop    ( size_t len );
 
+    // Get the length of the circlebuffer
     size_t Length               () { return this->buffer_length_; };
+    
+    // Get the used length of the circlebuffer
     size_t UsedLength           () { return this->used_len_; };
+
+    // Get the available length of the circlebuffer
     size_t AvailableLength      () { return this->available_len_; };
 
-    size_t tail_ = 0;
-    size_t head_ = 0;
-
+     
 private:
 
     CircleBuffer                ( CircleBuffer & ) = delete;
     CircleBuffer                ( CircleBuffer && ) = delete;
     CircleBuffer operator=      ( CircleBuffer ) = delete;
 
+    size_t tail_                = 0;
+    size_t head_                = 0;
     size_t used_len_            = 0;
     size_t available_len_       = 0;
 

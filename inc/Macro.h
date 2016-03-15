@@ -18,8 +18,8 @@ limitations under the License.
 ***********************************************************************************/
 
 /***********************************************************************************
-* Description   : 
-* Creator       : 
+* Description   : DO NOT use DEBUG marcoes in release version!
+* Creator       : shubo yang 
 * Date          : 
 * Modifed       : When      | Who       | What
 ***********************************************************************************/

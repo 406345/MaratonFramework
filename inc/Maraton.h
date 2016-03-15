@@ -37,6 +37,11 @@ limitations under the License.
 
 NS_MARATON_BEGIN
 
+// @Description : Singleton class.
+//                Main class for then entire framework
+//                Every operator( Connector or Listener ) must be register
+//                Run must be invoked to 
+//                startup the dispatcher thread to dispatch messages and event
 class Maraton
 {
 public:
@@ -54,9 +59,21 @@ public:
         return inst;
     }
 
-    void Regist     ( sptr<Operator> listener );
+    // Register a operator
+    // @opt : subclass of Operator
+    void Regist     ( sptr<Operator> opt );
+
+    // Unregister a operator
+    // @opt : subclass of Operator
     void Unregist   ( sptr<Operator> opt );
+
+    // Unregister a operator
+    // @opt : subclass of Operator
     void Unregist   ( const Operator * opt );
+
+    // Run the main loop
+    // this method will block the thread.
+    // Return if there is no more event to handle
     void Run        ();
 
 private:

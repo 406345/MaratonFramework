@@ -34,22 +34,28 @@ limitations under the License.
 
 NS_MARATON_BEGIN
 
+// @Description : Base class for a listener
+//                Listener will listen on the port, wait for connections 
+//                and never exit.
 class Listener :
     public Operator
 {
 public:
 
+    // Default constructure 
+    // @addr : ip or uri address
+    // @port : listening port
     Listener    ( std::string addr , 
                   int port );
+
     ~Listener   ( );
 
 protected:
 
-    //virtual Session * CreateSession    ( ) = 0;
-    //virtual void      OnSessionOpen   ( Session * session ) = 0;
-    //virtual void      OnSessionClose  ( Session * session ) = 0;
-                                        
     void              DoWork           ( ) override;
+
+    // Close a session
+    // @session : session to close
     void              CloseSession     ( Session * session ) override;
 
 private:

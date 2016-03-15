@@ -33,10 +33,12 @@ limitations under the License.
 
 NS_MARATON_BEGIN
 
+// @Description : UUID creation class
 class UUID
 {
 public:
 
+    // Create a new UUID
     static std::string Create() 
     {
         std::string ret = "";

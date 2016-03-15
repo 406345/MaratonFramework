@@ -32,14 +32,19 @@ limitations under the License.
 
 NS_MARATON_BEGIN
 
+// @Description : provide a mutex lock
 class Mutex
 {
 public:
 
+    // Default constructor
     Mutex( );
     ~Mutex( );
 
+    // Wait for a mutex lock
     void Wait   ();
+
+    // Release a mutex lock
     void Release();
 
 private:
@@ -47,15 +52,23 @@ private:
     uv_mutex_t mutex_ = { 0 };
 };
 
+// @Description : provide a semaphore lock
 class Semaphore
 {
 public:
 
+    // Default constructor
     Semaphore( );
+
+    // Initial with semaphore max counter 
     Semaphore( int initNum );
+
     ~Semaphore( );
 
+    // Check if need waiting
     void Wait( );
+
+    // Decrease the counter
     void Release( );
 
 private:

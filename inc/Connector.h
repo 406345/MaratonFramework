@@ -34,6 +34,9 @@ limitations under the License.
 
 NS_MARATON_BEGIN
 
+// @Description : Base class for connector. 
+//                It is used for connector to remote server with given ip and port.
+//                Instance must be register by Maraton::Instance()->Regist() to run
 class Connector :
     public Operator
 {
@@ -43,12 +46,8 @@ public:
                    int port );
     ~Connector   ();
                  
-protected:       
-     
-    //virtual Session * CreateSession    () = 0;
-    //virtual void      OnSessionOpen   ( Session * session ) = 0;
-    //virtual void      OnSessionClose  ( Session * session ) = 0;
-                                        
+protected:        
+
     void              DoWork           () override;
     void              CloseSession     ( Session * session ) override;
 

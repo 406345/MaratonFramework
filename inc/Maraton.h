@@ -34,6 +34,7 @@ limitations under the License.
 #include "Operator.h"
 #include "Listener.h"
 #include "Connector.h"
+#include "LoopEvent.h"
 
 NS_MARATON_BEGIN
 
@@ -80,6 +81,7 @@ private:
 
     Maraton( )
     {
+        loop_event = make_sptr( LoopEvent );
     };
 
     ~Maraton( )
@@ -88,6 +90,7 @@ private:
 
     uv_loop_t*          uv_loop( );
     sptr<Operator>      elements_[MAX_CONNECTION_SIZE];
+    sptr<LoopEvent>     loop_event;
     int                 elements_index_                 = 0;
      
     static void uv_process_resolved( uv_getaddrinfo_t * req , int status , addrinfo * res );

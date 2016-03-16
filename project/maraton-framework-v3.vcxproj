@@ -155,7 +155,6 @@ copy $(OutDir)MaratonFramework.pdb $(SolutionDir)..\lib\</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\AsyncToken.cpp" />
     <ClCompile Include="..\src\AsyncWorker.cpp" />
     <ClCompile Include="..\src\Buffer.cpp" />
     <ClCompile Include="..\src\CircleBuffer.cpp" />
@@ -163,6 +162,7 @@ copy $(OutDir)MaratonFramework.pdb $(SolutionDir)..\lib\</Command>
     <ClCompile Include="..\src\HTTP.cpp" />
     <ClCompile Include="..\src\Listener.cpp" />
     <ClCompile Include="..\src\Locks.cpp" />
+    <ClCompile Include="..\src\LoopEvent.cpp" />
     <ClCompile Include="..\src\Maraton.cpp" />
     <ClCompile Include="..\src\Operator.cpp" />
     <ClCompile Include="..\src\Session.cpp" />
@@ -173,7 +173,6 @@ copy $(OutDir)MaratonFramework.pdb $(SolutionDir)..\lib\</Command>
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\inc\AsyncToken.h" />
     <ClInclude Include="..\inc\AsyncWorker.h" />
     <ClInclude Include="..\inc\Buffer.h" />
     <ClInclude Include="..\inc\CircleBuffer.h" />
@@ -182,6 +181,7 @@ copy $(OutDir)MaratonFramework.pdb $(SolutionDir)..\lib\</Command>
     <ClInclude Include="..\inc\Listener.h" />
     <ClInclude Include="..\inc\Locks.h" />
     <ClInclude Include="..\inc\Logger.h" />
+    <ClInclude Include="..\inc\LoopEvent.h" />
     <ClInclude Include="..\inc\Macro.h" />
     <ClInclude Include="..\inc\Manager.h" />
     <ClInclude Include="..\inc\Maraton.h" />

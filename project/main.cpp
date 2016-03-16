@@ -24,6 +24,7 @@
 //* Modifed       : When      | Who       | What
 //***********************************************************************************/
 //
+//#include <chrono>
 //#include "MRT.h"
 //#include <thread>
 //#include <ostream>
@@ -35,10 +36,25 @@
 //
 //int main( )
 //{
+//
+//    auto worker = MRT::AsyncWorker::Create([]( AsyncWorker* worker)
+//    { 
+//        
+//        uv_loop_t loop;
+//        uv_loop_init( &loop );
+//
+//        while(true)
+//        {
+//            uv_run(&loop,UV_RUN_DEFAULT);
+//            std::this_thread::sleep_for( std::chrono::milliseconds(1));
+//        }
+//
+//    },nullptr);
+//
 //    MRT::Manager<MRT::Buffer> mgr;
 //    WebClient client;
 //
-//    client.PostX( "http://10.0.0.11:4243/images/create?fromImage=10.0.0.15:5000/yhfsdl" , "" , [ ] ( HTTPResponse * rep , uptr<Buffer> buf )
+//    client.GetX( "http://www.baidu.com" , [ ] ( HTTPResponse * rep , uptr<Buffer> buf )
 //    { 
 //        printf( buf->Data() );
 //        

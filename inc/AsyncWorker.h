@@ -53,8 +53,10 @@ public:
 
     // Create a asyncworker
     // @action  : work callback
+    //            []( AsyncWorker* worker){ // Do something }
     // @finish  : finish callback this callback will
     //            be invoked after working is done
+    //            []( AsyncWorker* worker){ // Do something }
     // @data    : input data pointer
     static AsyncWorker* Create( CallbackType acting ,
                                 CallbackType finish ,
@@ -62,6 +64,7 @@ public:
 
     // Create a asyncworker
     // @action  : work callback
+    //            []( AsyncWorker* worker){ // Do something }
     // @data    : input data pointer
     static AsyncWorker* Create( CallbackType acting ,
                                 void* data );

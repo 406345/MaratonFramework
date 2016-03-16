@@ -52,7 +52,7 @@
     <ClCompile Include="..\src\Locks.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\AsyncToken.cpp">
+    <ClCompile Include="..\src\LoopEvent.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -117,10 +117,10 @@
     <ClInclude Include="..\inc\Locks.h">
       <Filter>inc</Filter>
     </ClInclude>
-    <ClInclude Include="..\inc\AsyncToken.h">
+    <ClInclude Include="..\inc\SystemInfo.h">
       <Filter>inc</Filter>
     </ClInclude>
-    <ClInclude Include="..\inc\SystemInfo.h">
+    <ClInclude Include="..\inc\LoopEvent.h">
       <Filter>inc</Filter>
     </ClInclude>
   </ItemGroup>

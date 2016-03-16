@@ -92,7 +92,7 @@ void Maraton::Unregist( sptr<Operator> opt )
 
 void Maraton::Run( )
 {
-    uv_run( this->uv_loop( ) , UV_RUN_DEFAULT );
+    this->loop_event->Wait();
 }
 
 void Maraton::Unregist( const Operator * opt )
@@ -105,7 +105,7 @@ void Maraton::Unregist( const Operator * opt )
 
 uv_loop_t * Maraton::uv_loop( )
 {
-    return uv_default_loop( );
+    return loop_event->Event();
 }
 
 NS_MARATON_END

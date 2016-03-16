@@ -26,7 +26,6 @@ limitations under the License.
 
 #include "Session.h"
 #include "Operator.h"
-#include "AsyncToken.h"
 #include "SyncWorker.h"
 
 #ifndef _WIN32

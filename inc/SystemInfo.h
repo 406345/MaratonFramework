@@ -119,7 +119,7 @@ public:
     };
 
     // Get all the IP addresses
-    vector<string> IPAddres()
+    static vector<string> IPAddres()
     {
         vector<string> ret;
         int count = 0;
@@ -142,7 +142,7 @@ public:
     }
 
     //Get the host name
-    string HostName()
+    static string HostName()
     {
         char name[128] = { 0 };
         gethostname( name , 128 );

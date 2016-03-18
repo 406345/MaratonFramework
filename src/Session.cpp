@@ -44,7 +44,7 @@ Session::~Session( )
 
 }
 
-void Session::close( )
+void Session::Close( )
 {
     if ( !is_connected_ )
         return;
@@ -81,7 +81,7 @@ void Session::Send( uptr<Buffer> pBuffer )
                         1 ,
                         Session::uv_write_callback );
 
-    LOG_DEBUG_UV( r );
+    //LOG_DEBUG_UV( r );
 }
 
 void Session::uv_write_callback( uv_write_t * req , int status )
@@ -90,7 +90,7 @@ void Session::uv_write_callback( uv_write_t * req , int status )
       
     if( write_token == nullptr )
     {
-        LOG_DEBUG( "write_token is nullptr!" );
+        //LOG_DEBUG( "write_token is nullptr!" );
         return;
     }
 
@@ -98,7 +98,7 @@ void Session::uv_write_callback( uv_write_t * req , int status )
 
     if ( status < 0 )
     {
-        LOG_DEBUG_UV( status );
+        //LOG_DEBUG_UV( status );
         SAFE_DELETE( buffer->base );
         SAFE_DELETE( buffer );
         SAFE_DELETE( write_token );

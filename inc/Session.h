@@ -46,9 +46,8 @@ public:
     virtual ~Session();
 
     // Close the session
-    // This function will close the network
-    // connection
-    void close  ( );
+    // This function will close the network connection
+    void Close  ( );
 
     PP_DEF( std::string , ip_address )
     PP_DEF( int , port )

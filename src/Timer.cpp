@@ -31,3 +31,10 @@ size_t Timer::Tick()
 {
     return MRT::SystemInfo::Time( );
 };
+
+char * Timer::Date()
+{
+    time_t timep;
+    time(&timep);
+    return asctime(gmtime(&timep));
+};

@@ -313,7 +313,7 @@ void HTTPRequest::Parse( uptr<Buffer> data )
 
         ++pdata;
     }
-    while ( ( pdata - ori_data ) < data->Size( ) );
+    while ( (size_t)( pdata - ori_data ) < data->Size( ) );
 }
 
 uptr<Buffer> HTTPRequest::BuildHeader( )
@@ -633,7 +633,7 @@ void HTTPResponse::Parse( uptr<Buffer> data )
 
         ++pdata;
     }
-    while ( ( pdata - ori_data ) < data->Size( ) );
+    while ( (size_t)( pdata - ori_data ) < data->Size( ) );
 }
 bool HTTPResponse::Finish( )
 {
@@ -643,91 +643,7 @@ bool HTTPResponse::Finish( )
     }
 
     return this->content_->Size( ) == this->content_length_;
-}
-//
-//WebRequestSession::WebRequestSession( uptr<HTTPRequest> req )
-//{
-//    this->req_ = move_ptr( req );
-//    this->rep_ = make_uptr( HTTPResponse );
-//}
-//
-//WebRequestSession::~WebRequestSession( ) 
-//{
-//
-//}
-//
-//uptr<HTTPResponse> WebRequestSession::Response( )
-//{
-//    return move_ptr( this->rep_ );
-//}
-//
-//void WebRequestSession::OnConnect( )
-//{
-//    auto Header = this->req_->BuildHeader( );
-//    auto body   = this->req_->BuildBody( );
-//
-//    this->Send( move_ptr( Header ) );
-//    this->Send( move_ptr( body ) );
-//}
-//
-//void WebRequestSession::OnRead( uptr<Buffer> Data )
-//{
-//    this->rep_->Parse( move_ptr( Data ) );
-//}
-//
-//void WebRequestSession::OnWrite( uptr<Buffer> Data )
-//{
-//
-//}
-//
-//void WebRequestSession::OnClose( )
-//{
-//
-//}
-//
-//WebRequestConnector::WebRequestConnector( uptr<HTTPRequest> req_ ,
-//                                          callback_response_t callback_)
-//    : Connector( req_->Domain() , 80 )
-//{
-//    this->req_                  = move_ptr( req_ );
-//    this->callback_response_    = callback_;
-//}
-//
-//WebRequestConnector::~WebRequestConnector( )
-//{
-//
-//}
-//
-//Session * WebRequestConnector::CreateSession( )
-//{
-//    return new WebRequestSession( move_ptr( req_ ) );
-//}
-//
-//void WebRequestConnector::OnSessionOpen( Session * session )
-//{
-//
-//}
-//
-//void WebRequestConnector::OnSessionClose( Session * session )
-//{
-//    WebRequestSession* websession = scast<WebRequestSession*>( session );
-//    this->callback_response_( move_ptr( websession->Response( ) ) );
-//}
-//
-//void WebClient::get( std::string url , 
-//                     callback_response_t callback_ )
-//{
-//    uptr<HTTPRequest> req          = make_uptr( HTTPRequest , 
-//                                                url , 
-//                                                "GET" );
-//    req->Header( "Connection" , "close" );
-//
-//    uptr<WebRequestConnector> conn = make_uptr( WebRequestConnector ,
-//                                                move_ptr( req ) ,
-//                                                callback_ );
-//
-//    Maraton::Instance( )->Regist( move_ptr( conn ) );
-//} 
+} 
 
 NS_MARATON_END
 

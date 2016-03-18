@@ -57,13 +57,13 @@ void Maraton::uv_process_resolved( uv_getaddrinfo_t * req , int status , addrinf
 
     if ( opt == nullptr )
     {
-        LOG_DEBUG( "operator is nullptr" );
+        //LOG_DEBUG( "operator is nullptr" );
         return;
     } 
 
     if( status < 0 )
     {
-        LOG_DEBUG_UV( status );
+        //LOG_DEBUG_UV( status );
         Maraton::Instance( )->Unregist( opt );
         delete res;
         return;

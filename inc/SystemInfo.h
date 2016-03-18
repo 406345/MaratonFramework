@@ -28,10 +28,20 @@ limitations under the License.
 #define SYSETEM_INFO_H_
 
 #include <string>
+#include <vector>
 #include <Macro.h>
 #include <uv.h>
 
+#ifdef _WIN32
+#include <winsock2.h>
+#else
+#include <unistd.h>
+#endif
+
 NS_MARATON_BEGIN
+
+using std::vector;
+using std::string;
 
 // @Description : Helpe get the system information
 class SystemInfo
@@ -76,7 +86,7 @@ public:
 
         if ( result < 0 )
         {
-            LOG_DEBUG_UV( result );
+            //LOG_DEBUG_UV( result );
             return result;
         }
 
@@ -107,6 +117,39 @@ public:
     {
         return ( uv_hrtime( ) / 1000 );
     };
+
+    // Get all the IP addresses
+    vector<string> IPAddres()
+    {
+        vector<string> ret;
+        int count = 0;
+        uv_interface_address_t* addrs = nullptr;
+        uv_interface_addresses( &addrs , &count );
+
+        for ( int i = 0; i < count; i++ )
+        {
+            char ipv4[64] = { 0 };
+            uv_ip4_name( &addrs[i].address.address4 , ipv4 , 64 );
+
+            if ( ipv4[0] != 0 )
+            {
+                ret.push_back( string( ipv4 ) );
+            }
+        }
+
+        uv_free_interface_addresses( addrs , count );
+        return vector<string>( ret ); 
+    }
+
+    //Get the host name
+    string HostName()
+    {
+        char name[128] = { 0 };
+        gethostname( name , 128 );
+        
+        return string( name );
+    }
+
 };
 
 NS_MARATON_END

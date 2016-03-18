@@ -47,17 +47,17 @@ void Listener::DoWork()
 {
     auto result = uv_tcp_init( this->uv_loop_ ,
                                &this->uv_tcp_ );
-    LOG_DEBUG_UV( result );
+    //LOG_DEBUG_UV( result );
       
     result = uv_tcp_bind( &this->uv_tcp_ ,
                           ( const struct sockaddr* )&this->addr_in_ ,
                           0 );
-    LOG_DEBUG_UV( result );
+    //LOG_DEBUG_UV( result );
 
     result = uv_listen  ( ( uv_stream_t* ) &this->uv_tcp_ ,
                           MAX_CONNECTION_SIZE ,
                           Listener::uv_new_connection_callback );
-    LOG_DEBUG_UV( result );
+    //LOG_DEBUG_UV( result );
 } 
  
 void Listener::uv_new_connection_callback( uv_stream_t * server , int status )
@@ -66,13 +66,13 @@ void Listener::uv_new_connection_callback( uv_stream_t * server , int status )
 
     if ( status < 0 )
     {
-        LOG_DEBUG_UV( status );
+        //LOG_DEBUG_UV( status );
         return;
     }
 
     if ( listener == nullptr )
     {
-        LOG_DEBUG( "Listener is nullptr!" );
+        //LOG_DEBUG( "Listener is nullptr!" );
         return;
     }
 
@@ -118,7 +118,7 @@ void Listener::uv_new_connection_callback( uv_stream_t * server , int status )
         r = uv_read_start( (uv_stream_t*)&session->uv_tcp_ , 
                            Listener::uv_alloc_callback , 
                            Listener::uv_read_callback );
-        LOG_DEBUG_UV( r );
+        //LOG_DEBUG_UV( r );
 
         listener->OnSessionOpen( session );
         session->OnConnect( );
@@ -146,14 +146,14 @@ void Listener::uv_read_callback( uv_stream_t * stream ,
 
     if ( session == nullptr )
     {
-        LOG_DEBUG( "Session is nullptr!" );
+        //LOG_DEBUG( "Session is nullptr!" );
         delete buf->base;
         return;
     }
 
     if ( nread < 0 )
     {
-        LOG_DEBUG_UV( nread );
+        //LOG_DEBUG_UV( nread );
         uv_close( ( uv_handle_t* ) &session->uv_tcp_ , 
                   Listener::uv_close_callback );
         delete buf->base;
@@ -172,7 +172,7 @@ void Listener::uv_close_callback( uv_handle_t * handle )
    
     if ( session == nullptr )
     {
-        LOG_DEBUG( "Session is nullptr!" );
+        //LOG_DEBUG( "Session is nullptr!" );
         return;
     }
 
@@ -180,7 +180,7 @@ void Listener::uv_close_callback( uv_handle_t * handle )
 
     if ( listener == nullptr )
     {
-        LOG_DEBUG( "Listener is nullptr!" );
+        //LOG_DEBUG( "Listener is nullptr!" );
         return;
     }
 

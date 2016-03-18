@@ -56,7 +56,7 @@ void Connector::DoWork( )
                                   &this->session_->uv_tcp_ ,
                                   ( const struct sockaddr* ) &this->addr_in_ ,
                                   Connector::uv_connected_callback );
-    LOG_DEBUG_UV( result );
+    //LOG_DEBUG_UV( result );
 }
 
 void Connector::uv_connected_callback( uv_connect_t * req , int status )
@@ -65,7 +65,7 @@ void Connector::uv_connected_callback( uv_connect_t * req , int status )
 
     if ( status < 0 )
     {
-        LOG_DEBUG_UV( status );
+        //LOG_DEBUG_UV( status );
         uv_close( ( uv_handle_t* ) &opt->session_->uv_tcp_ ,
                   Connector::uv_close_callback );
         return;
@@ -73,7 +73,7 @@ void Connector::uv_connected_callback( uv_connect_t * req , int status )
 
     if ( opt == nullptr )
     {
-        LOG_DEBUG( "Session is nullptr!" );
+        //LOG_DEBUG( "Session is nullptr!" );
         return;
     }
 
@@ -83,7 +83,7 @@ void Connector::uv_connected_callback( uv_connect_t * req , int status )
     auto result = uv_read_start( ( uv_stream_t* ) &opt->session_->uv_tcp_ ,
                                  Connector::uv_alloc_callback ,
                                  Connector::uv_read_callback );
-    LOG_DEBUG_UV( result );
+    //LOG_DEBUG_UV( result );
 }
 
 void Connector::uv_alloc_callback( uv_handle_t * handle , size_t suggested_size , uv_buf_t * buf )
@@ -98,13 +98,13 @@ void Connector::uv_read_callback( uv_stream_t * stream , ssize_t nread , const u
 
     if ( session == nullptr )
     {
-        LOG_DEBUG( "Session is nullptr!" );
+        //LOG_DEBUG( "Session is nullptr!" );
         return;
     }
 
     if ( nread < 0 )
     {
-        LOG_DEBUG_UV( nread );
+        //LOG_DEBUG_UV( nread );
         uv_close( ( uv_handle_t* ) &session->uv_tcp_ , Connector::uv_close_callback );
         return;
     }
@@ -120,7 +120,7 @@ void Connector::uv_close_callback( uv_handle_t * handle )
 
     if ( session == nullptr )
     {
-        LOG_DEBUG( "Session is nullptr!" );
+        //LOG_DEBUG( "Session is nullptr!" );
         return;
     }
     auto opt = scast<Connector*>( session->opt_ );

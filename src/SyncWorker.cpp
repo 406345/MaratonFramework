@@ -85,7 +85,7 @@ void SyncWorker::uv_process_timer_tick_callback( uv_timer_t * handle )
 
         int result = uv_timer_stop( &worker->timer_ );
 
-        LOG_DEBUG_UV( result );
+        //LOG_DEBUG_UV( result );
         
         SAFE_DELETE( worker );
 

@@ -41,6 +41,7 @@ public:
     // Get the time in microsecond 
     // This function may not work in some versions of Windows
     static size_t Tick();
+    static char*  Date();
 };
 
 #endif // !TIMER_HPP_

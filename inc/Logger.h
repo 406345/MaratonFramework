@@ -30,6 +30,7 @@ limitations under the License.
 #include <stdio.h>
 #include <iostream>
 #include <stdarg.h>
+#include <time.h>
 #include "Timer.h"
 
 // @Description : static class, print message to console
@@ -43,11 +44,13 @@ public:
     template<typename ...Types>
     static void Sys( const char* fmt, Types... args)
     {
+        time_t timep;
+        time(&timep);
 
 #ifdef _WIN32
-        Tprintf( "[SYS] %lld: ", Timer::Tick() );
+        Tprintf( "[SYS] %: ", asctime(gmtime(&timep)) );
 #else
-        Tprintf( "\033[1;33m[SYS] %lld: ", Timer::Tick() );
+        Tprintf( "\033[1;33m[SYS] %: ", asctime(gmtime(&timep)) );
 #endif
 
         Tprintf( fmt, args... );
@@ -65,9 +68,9 @@ public:
     // @args : parameter values
     template<typename ...Types>
     static void Error( const char* fmt, Types... args )
-    {
+    { 
 #ifdef _WIN32
-        Tprintf( "[ERROR] %lld: ", Timer::Tick() );
+        Tprintf( "[ERROR] %: ", Timer::Tick() );
 #else
         Tprintf( "\033[0;31m[ERROR] %lld: ", Timer::Tick() );
 #endif
@@ -86,7 +89,7 @@ public:
     template<typename ...Types>
     static void Log( const char* fmt, Types... args )
     { 
-        Tprintf( "%lld: ", Timer::Tick() );
+        Tprintf( "%: ", Timer::Tick() );
         Tprintf( fmt , args... );
         Tprintf( "\r\n" );
     }

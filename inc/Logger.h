@@ -44,13 +44,10 @@ public:
     template<typename ...Types>
     static void Sys( const char* fmt, Types... args)
     {
-        time_t timep;
-        time(&timep);
-
 #ifdef _WIN32
-        Tprintf( "Sys [%]: ", asctime(gmtime(&timep)) );
+        Tprintf( "Sys [%]:", Timer::Date() );
 #else
-        Tprintf( "\033[1;33m[SYS] %: ", asctime(gmtime(&timep)) );
+        Tprintf( "\033[1;33m[SYS] %: ", Timer::Date() );
 #endif
 
         Tprintf( fmt, args... );
@@ -70,9 +67,9 @@ public:
     static void Error( const char* fmt, Types... args )
     { 
 #ifdef _WIN32
-        Tprintf( "Error [%]: ", Timer::Tick() );
+        Tprintf( "Error [%]:", Timer::Date() );
 #else
-        Tprintf( "\033[0;31m[ERROR] %lld: ", Timer::Tick() );
+        Tprintf( "\033[0;31m[ERROR] %lld: ", Timer::Date() );
 #endif
         Tprintf( fmt , args... );
 
@@ -89,7 +86,7 @@ public:
     template<typename ...Types>
     static void Log( const char* fmt, Types... args )
     { 
-        Tprintf( "Log [%]: ", Timer::Tick() );
+        Tprintf( "Log [%]: ", Timer::Date() );
         Tprintf( fmt , args... );
         Tprintf( "\r\n" );
     }

@@ -36,5 +36,19 @@ char * Timer::Date()
 {
     time_t timep;
     time(&timep);
-    return asctime(gmtime(&timep));
+
+    char * ret = asctime( gmtime( &timep ) );
+    char * pret = ret;
+
+    while ( *pret != '\0' )
+    {
+        if ( *pret == '\n' )
+        {
+            *pret = '\0';
+        }
+
+        pret++;
+    }
+
+    return ret;
 };

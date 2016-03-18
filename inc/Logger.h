@@ -48,7 +48,7 @@ public:
         time(&timep);
 
 #ifdef _WIN32
-        Tprintf( "[SYS] %: ", asctime(gmtime(&timep)) );
+        Tprintf( "Sys [%]: ", asctime(gmtime(&timep)) );
 #else
         Tprintf( "\033[1;33m[SYS] %: ", asctime(gmtime(&timep)) );
 #endif
@@ -70,7 +70,7 @@ public:
     static void Error( const char* fmt, Types... args )
     { 
 #ifdef _WIN32
-        Tprintf( "[ERROR] %: ", Timer::Tick() );
+        Tprintf( "Error [%]: ", Timer::Tick() );
 #else
         Tprintf( "\033[0;31m[ERROR] %lld: ", Timer::Tick() );
 #endif
@@ -89,7 +89,7 @@ public:
     template<typename ...Types>
     static void Log( const char* fmt, Types... args )
     { 
-        Tprintf( "%: ", Timer::Tick() );
+        Tprintf( "Log [%]: ", Timer::Tick() );
         Tprintf( fmt , args... );
         Tprintf( "\r\n" );
     }

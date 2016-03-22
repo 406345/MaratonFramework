@@ -37,7 +37,6 @@ Connector::Connector( std::string addr , int port )
 
 Connector::~Connector( )
 {
-    SAFE_DELETE( this->session_ );
 
 }
 

@@ -205,6 +205,11 @@ std::string HTTPRequest::Header( std::string key )
     return this->header_[key];
 }
 
+std::string HTTPRequest::RequestUrl()
+{
+    return this->url_;
+}
+
 void HTTPRequest::Parse( uptr<Buffer> data )
 {
     if ( data == nullptr )

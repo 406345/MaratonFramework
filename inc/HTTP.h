@@ -94,6 +94,7 @@ public:
     std::string  Header         ( std::string key );
     std::string  Domain         (){ return this->domain_; };
     std::string  Host           (){ return this->ip_;     };
+    std::string  RequestUrl     ();
 
     void Parse                  ( uptr<Buffer> data );
 

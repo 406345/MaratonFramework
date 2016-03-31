@@ -25,12 +25,14 @@ limitations under the License.
 ***********************************************************************************/
 
 #include "SyncWorker.h"
+#include <LoopEvent.h>
+#include <Maraton.h>
 
 NS_MARATON_BEGIN
 
 SyncWorker* SyncWorker::Create( const SyncworkerCallbackType  work_callback , 
-                         const SyncworkerCallbackType  after_callback , 
-                         void * data )
+                                const SyncworkerCallbackType  after_callback , 
+                                void * data )
 {
     SyncWorker* worker      = new SyncWorker();
     worker->cb_work_        = work_callback;
@@ -43,9 +45,9 @@ SyncWorker* SyncWorker::Create( const SyncworkerCallbackType  work_callback ,
 }
 
 SyncWorker* SyncWorker::Create( const size_t time_span , 
-                         const SyncworkerCallbackType work_callback , 
-                         const SyncworkerCallbackType after_callback , 
-                         void * data )
+                                const SyncworkerCallbackType work_callback , 
+                                const SyncworkerCallbackType after_callback , 
+                                void * data )
 {
     SyncWorker* worker      = new SyncWorker();
     worker->cb_work_        = work_callback;
@@ -132,7 +134,8 @@ SyncWorker::SyncWorker()
     this->loop_count_   = 0;
     this->loop_time_    = 1;
 
-    uv_timer_init( uv_default_loop() , &this->timer_ );
+    uv_timer_init( Maraton::Instance()->Event()->Event() , 
+                   &this->timer_ );
 }
 
 SyncWorker::~SyncWorker()

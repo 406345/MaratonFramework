@@ -77,6 +77,9 @@ public:
     // Return if there is no more event to handle
     void Run        ();
 
+    // Get the loop event
+    sptr<LoopEvent> Event() { return this->loop_event; }
+
 private:
 
     Maraton( )

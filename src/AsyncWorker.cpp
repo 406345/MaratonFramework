@@ -25,6 +25,7 @@ limitations under the License.
 ***********************************************************************************/
 
 #include "AsyncWorker.h" 
+#include <Maraton.h>
 
 NS_MARATON_BEGIN
 
@@ -70,7 +71,7 @@ AsyncWorker::AsyncWorker( CallbackType acting ,
 void AsyncWorker::Start()
 {
     this->worker_.data = this;
-    uv_queue_work( uv_default_loop() , &this->worker_ ,
+    uv_queue_work( Maraton::Instance()->Event()->Event() , &this->worker_ ,
                    AsyncWorker::uv_process_work_callback , 
                    AsyncWorker::uv_process_after_work_callback );
 }

@@ -25,6 +25,7 @@ limitations under the License.
 ***********************************************************************************/
 
 #include <thread>
+#include <Maraton.h>
 #include "WebClient.h"
 
 NS_MARATON_BEGIN
@@ -48,7 +49,7 @@ void WebClient::Get( std::string url ,
     uptr<WebClientRequestToken> token   = make_uptr( WebClientRequestToken );
     token->req_                         = move_ptr( req );
     token->callback_                    = callback;
-    token->uv_loop                      = uv_default_loop( );
+    token->uv_loop                      = Maraton::Instance()->Event()->Event();
 
     this->FillHeader( token->req_.get( ) );
     
@@ -64,7 +65,7 @@ void WebClient::GetX( std::string url , CallbackStreamType callback )
     token->req_                         = move_ptr( req );
     token->rep_                         = make_uptr( HTTPResponse ); 
     //token->callback_                    = callback;
-    token->uv_loop                      = uv_default_loop( );
+    token->uv_loop                      = Maraton::Instance()->Event()->Event();
    
     token->rep_->ReadCallback( [callback] ( HTTPResponse* rep ,
                                uptr<Buffer>  buf )
@@ -87,7 +88,7 @@ void WebClient::Post( std::string url ,
     uptr<WebClientRequestToken> token   = make_uptr( WebClientRequestToken );
     token->req_                         = move_ptr( req );
     token->callback_                    = callback;
-    token->uv_loop                      = uv_default_loop( );
+    token->uv_loop                      = Maraton::Instance()->Event()->Event();
     
     this->FillHeader     ( token->req_.get( ) );
     token->req_->Content ( make_uptr( Buffer , data ) );
@@ -103,7 +104,7 @@ void WebClient::PostX( std::string url , std::string data , CallbackStreamType c
     token->req_                         = move_ptr( req );
     token->rep_                         = make_uptr( HTTPResponse ); 
     //token->callback_                    = callback;
-    token->uv_loop                      = uv_default_loop( );
+    token->uv_loop                      = Maraton::Instance()->Event()->Event();
    
     token->rep_->ReadCallback( [callback] ( HTTPResponse* rep ,
                                uptr<Buffer>  buf )
@@ -126,7 +127,7 @@ void WebClient::PostFile( std::string url ,
     uptr<WebClientRequestToken> token   = make_uptr( WebClientRequestToken );
     token->req_                         = move_ptr( req );
     token->callback_                    = callback;
-    token->uv_loop                      = uv_default_loop( );
+    token->uv_loop                      = Maraton::Instance()->Event()->Event();
     
     req->Data( pfile );
     this->FillHeader( token->req_.get( ) );
@@ -163,7 +164,7 @@ void WebClient::DownloadFile( std::string url ,
     token->req_                         = move_ptr( req );
     token->rep_                         = make_uptr( HTTPResponse ); 
     token->callback_                    = callback;
-    token->uv_loop                      = uv_default_loop( );
+    token->uv_loop                      = Maraton::Instance()->Event()->Event();
    
     token->rep_->ReadCallback( [pfile] ( HTTPResponse* rep ,
                                uptr<Buffer>  buf )

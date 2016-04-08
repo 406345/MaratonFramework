@@ -654,7 +654,14 @@ void HTTPResponse::Parse( uptr<Buffer> data )
 }
 bool HTTPResponse::Finish( )
 {
-    if ( this->content_ == nullptr )
+    if ( this->content_ == nullptr &&
+         this->content_length_ == 0)
+    {
+        return true;
+    }
+
+    if ( this->content_ == nullptr &&
+         this->content_length_ > 0)
     {
         return false;
     }

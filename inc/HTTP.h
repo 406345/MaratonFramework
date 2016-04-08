@@ -86,6 +86,7 @@ public:
     void         WriteCallback  ( WriteCallbackType callback );
 
     void         Content        ( uptr<Buffer> content );
+    void         Content        ( std::string content );
     uptr<Buffer> Content        ();
     void         ContentLength  ( size_t size );
     size_t       ContentLength  ();
@@ -160,6 +161,7 @@ public:
     std::string  Header          ( std::string key );
                  
     void         Content         ( uptr<Buffer> content );
+    void         Content         ( std::string content );
     uptr<Buffer> Content         ();
     void         ContentLength   ( size_t size );
     size_t       ContentLength   ();

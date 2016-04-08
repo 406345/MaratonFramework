@@ -172,6 +172,12 @@ void HTTPRequest::Content( uptr<Buffer> content )
     }
 }
 
+void HTTPRequest::Content( std::string content )
+{
+    this->ContentLength( content.size( ) );
+    this->content_ = make_uptr( Buffer , content );
+}
+
 uptr<Buffer> HTTPRequest::Content( )
 {
     if ( this->content_ == nullptr ) return nullptr;
@@ -420,6 +426,12 @@ void HTTPResponse::Content( uptr<Buffer> content )
 
     this->ContentLength( content->Size( ) );
     this->content_ = move_ptr( content );
+}
+
+void HTTPResponse::Content( std::string content )
+{ 
+    this->ContentLength( content.size( ) );
+    this->content_ = make_uptr( Buffer , content );
 }
 
 uptr<Buffer> HTTPResponse::Content( )

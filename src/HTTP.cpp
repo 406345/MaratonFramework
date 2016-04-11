@@ -436,7 +436,7 @@ bool HTTPRequest::Finish()
 
 sptr<Url> HTTPRequest::Uri()
 {
-    return sptr<Url>();
+    return make_sptr( Url , this->url_ );
 }
 
 //HTTPResponse::HTTPResponse( size_t Status )

@@ -61,7 +61,7 @@ int Url::Port()
 
 string Url::Parameter( string name )
 {
-    return string();
+    return this->parameter_[name];
 }
 
 void Url::Parse( std::string url )
@@ -70,6 +70,11 @@ void Url::Parse( std::string url )
     int state = 0;
     int index = 0;
     string parameter_value = "";
+
+    if ( url[0] == '/' )
+    {
+        state = 3;
+    }
 
     do
     {
@@ -166,6 +171,9 @@ void Url::Parse( std::string url )
         index++;
     }
     while ( index < url.size() );
+
+    if( !this->tmp_.empty() )
+        this->parameter_[this->tmp_] = parameter_value;
 
     if ( this->path_.empty() )
     {
@@ -424,6 +432,11 @@ bool HTTPRequest::Finish()
     }
 
     return this->content_->Size() == this->content_length_;
+}
+
+sptr<Url> HTTPRequest::Uri()
+{
+    return sptr<Url>();
 }
 
 //HTTPResponse::HTTPResponse( size_t Status )

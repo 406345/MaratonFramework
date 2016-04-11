@@ -112,6 +112,7 @@ public:
     void         Data           ( void* value );
 
     bool         Finish         ();
+    sptr<Url>    Uri            ();
      
 private:
 

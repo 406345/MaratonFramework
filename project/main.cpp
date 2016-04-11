@@ -37,37 +37,6 @@
 //int main( )
 //{
 //
-//    auto worker = MRT::AsyncWorker::Create([]( AsyncWorker* worker)
-//    { 
-//        
-//        uv_loop_t loop;
-//        uv_loop_init( &loop );
-//
-//        while(true)
-//        {
-//            uv_run(&loop,UV_RUN_DEFAULT);
-//            std::this_thread::sleep_for( std::chrono::milliseconds(1));
-//        }
-//
-//    },nullptr);
-//
-//    MRT::Manager<MRT::Buffer> mgr;
-//    WebClient client;
-//
-//    client.GetX( "http://www.baidu.com" , [ ] ( HTTPResponse * rep , uptr<Buffer> buf )
-//    { 
-//        printf( buf->Data() );
-//        
-//    } );
-//
-//    while ( true )
-//    {
-//        MRT::Maraton::Instance( )->Run( );
-//    }
-//    Logger::Log( ret->Content( )->Data( ) );
-//
-//    auto ret2 = client.PostSync( "http://www.baidu.com" , "" );
-//    Logger::Log( ret2->Content( )->Data( ) );
-//
+//     
 //    return 0;
 //}

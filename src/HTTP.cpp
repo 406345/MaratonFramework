@@ -18,9 +18,9 @@ limitations under the License.
 ***********************************************************************************/
 
 /***********************************************************************************
-* Description   : 
-* Creator       : 
-* Date          : 
+* Description   :
+* Creator       :
+* Date          :
 * Modifed       : When      | Who       | What
 ***********************************************************************************/
 
@@ -34,29 +34,34 @@ Url::Url( std::string url )
     this->Parse( this->url_ );
 }
 
-Url::~Url( )
+Url::~Url()
 {
 
 }
 
-std::string Url::Domain( )
+std::string Url::Domain()
 {
     return this->domain_;
 }
 
-std::string Url::Path( )
+std::string Url::Path()
 {
     return this->path_;
 }
 
-std::string Url::Protocol( )
+std::string Url::Protocol()
 {
     return this->protocol_;
 }
 
-int Url::Port( )
+int Url::Port()
 {
     return this->port_;
+}
+
+string Url::Parameter( string name )
+{
+    return string();
 }
 
 void Url::Parse( std::string url )
@@ -64,11 +69,13 @@ void Url::Parse( std::string url )
     // http://blog.csdn.net/is2120/article/details/6251412
     int state = 0;
     int index = 0;
+    string parameter_value = "";
 
     do
     {
         switch ( state )
         {
+            // Read protocol
             case 0:
                 {
                     if ( url[index] == ':' )
@@ -80,6 +87,7 @@ void Url::Parse( std::string url )
                     this->protocol_ += url[index];
                 }
                 break;
+                // Read port and domain
             case 1:
                 {
                     if ( url[index] == ':' )
@@ -97,35 +105,71 @@ void Url::Parse( std::string url )
                     this->domain_ += url[index];
                 }
                 break;
+                // Read domain
             case 2:
                 {
                     if ( url[index] == '/' )
                     {
-                        this->port_ = atoi( this->tmp_.c_str( ) );
+                        this->port_ = atoi( this->tmp_.c_str() );
                         this->tmp_ = "";
                         state = 3;
                         break;
                     }
 
-                    this->tmp_+=url[index];
+                    this->tmp_ += url[index];
                 }
                 break;
+                // Read Path
             case 3:
                 {
-                    this->path_+=url[index];
+                    if ( url[index] == '?' )
+                    {
+                        state = 4;
+                        this->tmp_ = "";
+                        break;
+                    }
+
+                    this->path_ += url[index];
                 }
                 break;
+                // Read parameter name
+            case 4:
+                {
+                    if ( url[index] == '=' )
+                    {
+                        state = 5;
+                        break;
+                    }
+
+                    this->tmp_ += url[index];
+                }break;
+                // Read parameter value
+            case 5:
+                {
+                    if ( url[index] == '&' )
+                    {
+                        state = 4;
+
+                        this->parameter_[this->tmp_] = parameter_value;
+                        this->tmp_ = "";
+                        parameter_value = "";
+
+                        break;
+                    }
+
+                    parameter_value += url[index];
+                }break;
             default:
                 break;
         }
 
         index++;
     }
-    while ( index < url.size( ) );
+    while ( index < url.size() );
 
-    if ( this->path_.empty( ) )
+    if ( this->path_.empty() )
     {
-        this->port_ = atoi( this->tmp_.c_str( ) );
+        this->port_ = atoi( this->tmp_.c_str() );
         this->path_ = "/";
     }
 }
@@ -134,9 +178,9 @@ HTTPRequest::HTTPRequest( std::string url , std::string method )
 {
     Url url_parse( url );
 
-    this->domain_ = url_parse.Domain( );
-    this->url_    = url_parse.Path( );
-    this->port_   = url_parse.Port( );
+    this->domain_ = url_parse.Domain();
+    this->url_    = url_parse.Path();
+    this->port_   = url_parse.Port();
 
     if ( this->port_ == 0 )
     {
@@ -146,11 +190,11 @@ HTTPRequest::HTTPRequest( std::string url , std::string method )
     this->method_ = method;
 }
 
-HTTPRequest::HTTPRequest( )
+HTTPRequest::HTTPRequest()
 {
 }
 
-HTTPRequest::~HTTPRequest( )
+HTTPRequest::~HTTPRequest()
 {
 }
 
@@ -167,24 +211,24 @@ void HTTPRequest::Content( uptr<Buffer> content )
     }
     else
     {
-        this->ContentLength( content->Size( ) );
+        this->ContentLength( content->Size() );
         this->content_ = move_ptr( content );
     }
 }
 
 void HTTPRequest::Content( std::string content )
 {
-    this->ContentLength( content.size( ) );
+    this->ContentLength( content.size() );
     this->content_ = make_uptr( Buffer , content );
 }
 
-uptr<Buffer> HTTPRequest::Content( )
+uptr<Buffer> HTTPRequest::Content()
 {
     if ( this->content_ == nullptr ) return nullptr;
 
     return make_uptr( Buffer ,
-                      this->content_->Data( ) ,
-                      this->content_->Size( ) );
+                      this->content_->Data() ,
+                      this->content_->Size() );
 }
 
 void HTTPRequest::ContentLength( size_t size )
@@ -196,7 +240,7 @@ void HTTPRequest::ContentLength( size_t size )
     this->Header( "Content-Length" , std::string( buf ) );
 }
 
-size_t HTTPRequest::ContentLength( )
+size_t HTTPRequest::ContentLength()
 {
     return this->content_length_;
 }
@@ -223,8 +267,8 @@ void HTTPRequest::Parse( uptr<Buffer> data )
         return;
     }
 
-    char* pdata = data->Data( );
-    char* ori_data = data->Data( );
+    char* pdata = data->Data();
+    char* ori_data = data->Data();
 
     do
     {
@@ -267,10 +311,10 @@ void HTTPRequest::Parse( uptr<Buffer> data )
                     {
                         ++pdata;
                         this->parse_state_ = ParseState::kContent;
-                        if ( !this->header_["Content-Length"].empty( ) )
+                        if ( !this->header_["Content-Length"].empty() )
                         {
                             this->content_length_ =
-                                atoll( this->header_["Content-Length"].c_str( ) );
+                                atoll( this->header_["Content-Length"].c_str() );
                         }
 
                         break;
@@ -314,7 +358,7 @@ void HTTPRequest::Parse( uptr<Buffer> data )
                     }
 
                     this->content_->Push( pdata ,
-                                          data->Size( ) - ( pdata - ori_data ) );
+                                          data->Size() - ( pdata - ori_data ) );
                     return;
                 }
                 break;
@@ -324,10 +368,10 @@ void HTTPRequest::Parse( uptr<Buffer> data )
 
         ++pdata;
     }
-    while ( (size_t)( pdata - ori_data ) < data->Size( ) );
+    while ( ( size_t ) ( pdata - ori_data ) < data->Size() );
 }
 
-uptr<Buffer> HTTPRequest::BuildHeader( )
+uptr<Buffer> HTTPRequest::BuildHeader()
 {
     std::string head = "";
     std::string new_line = "\r\n";
@@ -344,7 +388,7 @@ uptr<Buffer> HTTPRequest::BuildHeader( )
     return make_uptr( Buffer , head );
 }
 
-uptr<Buffer> HTTPRequest::BuildBody( )
+uptr<Buffer> HTTPRequest::BuildBody()
 {
     if ( this->write_callback_ != nullptr )
     {
@@ -355,14 +399,14 @@ uptr<Buffer> HTTPRequest::BuildBody( )
     if ( this->content_ != nullptr )
     {
         return make_uptr( Buffer ,
-                          this->content_->Data( ) ,
-                          this->content_->Size( ) );
+                          this->content_->Data() ,
+                          this->content_->Size() );
     }
 
     return nullptr;
 }
 
-void* HTTPRequest::Data( )
+void* HTTPRequest::Data()
 {
     return this->data_;
 }
@@ -372,14 +416,14 @@ void HTTPRequest::Data( void * value )
     this->data_ = value;
 }
 
-bool HTTPRequest::Finish( )
+bool HTTPRequest::Finish()
 {
     if ( this->content_ == nullptr )
     {
         return false;
     }
 
-    return this->content_->Size( ) == this->content_length_;
+    return this->content_->Size() == this->content_length_;
 }
 
 //HTTPResponse::HTTPResponse( size_t Status )
@@ -387,11 +431,11 @@ bool HTTPRequest::Finish( )
 //    this->Status( Status );
 //}
 
-HTTPResponse::HTTPResponse( )
+HTTPResponse::HTTPResponse()
 {
 }
 
-HTTPResponse::~HTTPResponse( )
+HTTPResponse::~HTTPResponse()
 {
 }
 
@@ -400,7 +444,7 @@ void HTTPResponse::ReadCallback( RepReadCallbackType callback )
     this->read_callback_ = callback;
 }
 
-void * HTTPResponse::Data( )
+void * HTTPResponse::Data()
 {
     return this->data_;
 }
@@ -424,23 +468,23 @@ void HTTPResponse::Content( uptr<Buffer> content )
 {
     if ( content == nullptr ) return;
 
-    this->ContentLength( content->Size( ) );
+    this->ContentLength( content->Size() );
     this->content_ = move_ptr( content );
 }
 
 void HTTPResponse::Content( std::string content )
-{ 
-    this->ContentLength( content.size( ) );
+{
+    this->ContentLength( content.size() );
     this->content_ = make_uptr( Buffer , content );
 }
 
-uptr<Buffer> HTTPResponse::Content( )
+uptr<Buffer> HTTPResponse::Content()
 {
     if ( this->content_ == nullptr ) return nullptr;
 
     uptr<Buffer> result = make_uptr( Buffer ,
-                                     this->content_->Data( ) ,
-                                     this->content_->Size( ) );
+                                     this->content_->Data() ,
+                                     this->content_->Size() );
     return result;
 }
 
@@ -448,12 +492,12 @@ void HTTPResponse::ContentLength( size_t size )
 {
     this->content_length_ = size;
     char buf[16]          = { 0 };
-    sprintf(buf ,  "%lld" , size );
+    sprintf( buf , "%lld" , size );
     //ltoa( size , buf , 10 );
     this->Header( "Content-Length" , std::string( buf ) );
 }
 
-size_t HTTPResponse::ContentLength( )
+size_t HTTPResponse::ContentLength()
 {
     return this->content_length_;
 }
@@ -482,18 +526,18 @@ void HTTPResponse::Status( size_t code )
     }
 }
 
-size_t HTTPResponse::Status( )
+size_t HTTPResponse::Status()
 {
     return this->status_;
 }
 
-uptr<Buffer> HTTPResponse::BuildHeader( )
+uptr<Buffer> HTTPResponse::BuildHeader()
 {
     std::string head        = "";
     std::string new_line    = "\r\n";
     char tmp[16]            = { 0 };
 
-    sprintf(tmp ,  "%lld" , this->status_ );
+    sprintf( tmp , "%lld" , this->status_ );
     //ltoa( this->status_ , tmp , 10 );
     std::string status_code_str ( tmp );
 
@@ -509,13 +553,13 @@ uptr<Buffer> HTTPResponse::BuildHeader( )
     return make_uptr( Buffer , head );
 }
 
-uptr<Buffer> HTTPResponse::BuildBody( )
+uptr<Buffer> HTTPResponse::BuildBody()
 {
     if ( this->content_ != nullptr )
     {
         return make_uptr( Buffer ,
-                          this->content_->Data( ) ,
-                          this->content_->Size( ) );
+                          this->content_->Data() ,
+                          this->content_->Size() );
     }
 
     return nullptr;
@@ -528,8 +572,8 @@ void HTTPResponse::Parse( uptr<Buffer> data )
         return;
     }
 
-    char* pdata = data->Data( );
-    char* ori_data = data->Data( );
+    char* pdata = data->Data();
+    char* ori_data = data->Data();
 
     do
     {
@@ -551,7 +595,7 @@ void HTTPResponse::Parse( uptr<Buffer> data )
                     if ( *pdata == ' ' )
                     {
                         char buf[16]        = { 0 };
-                        this->status_       = atoll( this->status_str_.c_str( ) );
+                        this->status_       = atoll( this->status_str_.c_str() );
                         this->status_str_   = "";
                         this->parse_state_  = ParseState::kStatus;
                         break;
@@ -598,9 +642,9 @@ void HTTPResponse::Parse( uptr<Buffer> data )
 
                         if ( this->tmp_key_ == "Content-Length" )
                         {
-                            this->content_length_ = atoll( this->tmp_value_.c_str( ) );
+                            this->content_length_ = atoll( this->tmp_value_.c_str() );
                             this->content_ = make_uptr( Buffer , this->content_length_ );
-                            this->content_->Zero( );
+                            this->content_->Zero();
                         }
 
                         this->tmp_key_     = "";
@@ -616,7 +660,7 @@ void HTTPResponse::Parse( uptr<Buffer> data )
                 {
                     if ( this->read_callback_ != nullptr )
                     {
-                        size_t delta_size = data->Size( ) - ( pdata - ori_data );
+                        size_t delta_size = data->Size() - ( pdata - ori_data );
                         this->read_callback_( this ,
                                               make_uptr( Buffer ,
                                               pdata ,
@@ -639,7 +683,7 @@ void HTTPResponse::Parse( uptr<Buffer> data )
                         auto size = scast<int>( pdata - ori_data );
 
                         this->content_->Push( pdata ,
-                                              data->Size( ) - size );
+                                              data->Size() - size );
                     }
                     return;
                 }
@@ -650,24 +694,24 @@ void HTTPResponse::Parse( uptr<Buffer> data )
 
         ++pdata;
     }
-    while ( (size_t)( pdata - ori_data ) < data->Size( ) );
+    while ( ( size_t ) ( pdata - ori_data ) < data->Size() );
 }
-bool HTTPResponse::Finish( )
+bool HTTPResponse::Finish()
 {
     if ( this->content_ == nullptr &&
-         this->content_length_ == 0)
+         this->content_length_ == 0 )
     {
         return true;
     }
 
     if ( this->content_ == nullptr &&
-         this->content_length_ > 0)
+         this->content_length_ > 0 )
     {
         return false;
     }
 
-    return this->content_->Size( ) == this->content_length_;
-} 
+    return this->content_->Size() == this->content_length_;
+}
 
 NS_MARATON_END
 

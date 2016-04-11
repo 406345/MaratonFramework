@@ -30,6 +30,7 @@ limitations under the License.
 #include "Macro.h"
 #include "Buffer.h"
 #include "uv.h"
+#include "Error.h"
 
 NS_MARATON_BEGIN
 
@@ -47,10 +48,13 @@ public:
 
     // Close the session
     // This function will close the network connection
-    void Close  ( );
+    void  Close    ();
+    Error LastError() { return this->error_; };
 
     PP_DEF( std::string , ip_address )
     PP_DEF( int , port )
+
+
 
 protected:
     
@@ -93,7 +97,8 @@ private:
     std::string ip_address_     = "";
     int         port_           = 0;
     bool        is_connected_   = false;
-    
+    Error       error_;
+
     static void uv_write_callback ( uv_write_t * req, int status );
 
     friend class Operator;

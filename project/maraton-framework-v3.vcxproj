@@ -177,6 +177,7 @@ copy $(OutDir)MaratonFramework.pdb $(SolutionDir)..\lib\</Command>
     <ClInclude Include="..\inc\Buffer.h" />
     <ClInclude Include="..\inc\CircleBuffer.h" />
     <ClInclude Include="..\inc\Connector.h" />
+    <ClInclude Include="..\inc\Error.h" />
     <ClInclude Include="..\inc\HTTP.h" />
     <ClInclude Include="..\inc\Listener.h" />
     <ClInclude Include="..\inc\Locks.h" />

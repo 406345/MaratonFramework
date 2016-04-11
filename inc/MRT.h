@@ -44,3 +44,4 @@ limitations under the License.
 #include "Listener.h"
 #include "Connector.h"
 #include "Session.h"
+#include "Error.h"

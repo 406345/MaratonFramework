@@ -98,7 +98,9 @@ void Session::uv_write_callback( uv_write_t * req , int status )
 
     if ( status < 0 )
     {
-        //LOG_DEBUG_UV( status );
+        write_token->session->error_.Code( status );
+        write_token->session->error_.Message( uv_strerror(status) );
+         
         SAFE_DELETE( buffer->base );
         SAFE_DELETE( buffer );
         SAFE_DELETE( write_token );

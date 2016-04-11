@@ -61,20 +61,25 @@ void Connector::DoWork( )
 void Connector::uv_connected_callback( uv_connect_t * req , int status )
 {
     Connector* opt = scast<Connector*>( req->data );
-
-    if ( status < 0 )
-    {
-        //LOG_DEBUG_UV( status );
-        uv_close( ( uv_handle_t* ) &opt->session_->uv_tcp_ ,
-                  Connector::uv_close_callback );
-        return;
-    }
-
+    
     if ( opt == nullptr )
     {
         //LOG_DEBUG( "Session is nullptr!" );
         return;
     }
+
+    if ( status < 0 )
+    {
+        //LOG_DEBUG_UV( status );
+        opt->session_->error_.Code( status );
+        opt->session_->error_.Message( uv_strerror(status) );
+
+        uv_close( ( uv_handle_t* ) &opt->session_->uv_tcp_ ,
+                  Connector::uv_close_callback );
+        return;
+    }
+
+    
 
     opt->OnSessionOpen        ( opt->session_ );
     opt->session_->OnConnect   ( );
@@ -104,6 +109,9 @@ void Connector::uv_read_callback( uv_stream_t * stream , ssize_t nread , const u
     if ( nread < 0 )
     {
         //LOG_DEBUG_UV( nread );
+        session->error_.Code( nread );
+        session->error_.Message( uv_strerror(nread) );
+
         uv_close( ( uv_handle_t* ) &session->uv_tcp_ , Connector::uv_close_callback );
         return;
     }
@@ -122,8 +130,9 @@ void Connector::uv_close_callback( uv_handle_t * handle )
         //LOG_DEBUG( "Session is nullptr!" );
         return;
     }
-    auto opt = scast<Connector*>( session->opt_ );
 
+    auto opt = scast<Connector*>( session->opt_ );
+     
     session->OnClose( );
     opt->OnSessionClose( session );
     Maraton::Instance( )->Unregist( opt );

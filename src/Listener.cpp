@@ -99,27 +99,11 @@ void Listener::uv_new_connection_callback( uv_stream_t * server , int status )
     session->port_ = peer_addr->sin_port;
 
     if ( r == 0 )
-    {
-        //for ( size_t i = 0; i <= listener->session_list_index_; i++ )
-        //{
-        //    if ( listener->session_list_[i] == nullptr )
-        //    {
-        //        listener->session_list_[i] = session;
-        //        if ( listener->session_list_index_ == i )
-        //        {
-        //            listener->session_list_index_ = 
-        //                ( listener->session_list_index_ + 1 ) %
-        //                MAX_CONNECTION_SIZE;
-        //        }
-        //        break;
-        //    }
-        //}
-
+    { 
         r = uv_read_start( (uv_stream_t*)&session->uv_tcp_ , 
                            Listener::uv_alloc_callback , 
                            Listener::uv_read_callback );
-        //LOG_DEBUG_UV( r );
-
+        
         listener->OnSessionOpen( session );
         session->OnConnect( );
     }
@@ -154,6 +138,9 @@ void Listener::uv_read_callback( uv_stream_t * stream ,
     if ( nread < 0 )
     {
         //LOG_DEBUG_UV( nread );
+        session->error_.Code( nread );
+        session->error_.Message( uv_strerror(nread) );
+
         uv_close( ( uv_handle_t* ) &session->uv_tcp_ , 
                   Listener::uv_close_callback );
         delete buf->base;

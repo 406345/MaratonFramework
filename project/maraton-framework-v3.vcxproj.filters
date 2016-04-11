@@ -123,5 +123,8 @@
     <ClInclude Include="..\inc\LoopEvent.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\inc\Error.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

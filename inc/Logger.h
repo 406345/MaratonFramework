@@ -55,7 +55,7 @@ public:
     template<typename ...Types>
     static void Error( const char* fmt, Types... args )
     { 
-        Tprintf( "% [ERROR ] ", Timer::Date() );
+        Tprintf( "% [ERROR] ", Timer::Date() );
         Tprintf( fmt, args... );
         Tprintf( "\r\n" ); 
     }
@@ -66,7 +66,7 @@ public:
     template<typename ...Types>
     static void Log( const char* fmt, Types... args )
     { 
-        Tprintf( "% [INFO  ] ", Timer::Date() );
+        Tprintf( "% [INFO] ", Timer::Date() );
         Tprintf( fmt , args... );
         Tprintf( "\r\n" );
     }
@@ -79,7 +79,7 @@ public:
     static void Debug( const char* fmt, Types... args )
     { 
 #ifdef _DEBUG
-        Tprintf( "% [DEBUG ] ", Timer::Date() );
+        Tprintf( "% [DEBUG] ", Timer::Date() );
         Tprintf( fmt , args... );
         Tprintf( "\r\n" );
 #endif

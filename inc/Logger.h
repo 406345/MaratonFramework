@@ -44,20 +44,9 @@ public:
     template<typename ...Types>
     static void Sys( const char* fmt, Types... args)
     {
-#ifdef _WIN32
         Tprintf( "[%] ", Timer::Date() );
-#else
-        Tprintf( "\033[1;33m[%] ", Timer::Date() );
-#endif
-
         Tprintf( fmt, args... );
-
-#ifdef _WIN32
         Tprintf( "\r\n" );
-#else
-        Tprintf( "\033[0m\r\n" );
-#endif      
-
     }
 
     // print message with error channel
@@ -66,18 +55,9 @@ public:
     template<typename ...Types>
     static void Error( const char* fmt, Types... args )
     { 
-#ifdef _WIN32
         Tprintf( "[%] ", Timer::Date() );
-#else
-        Tprintf( "\033[0;31m[%] ", Timer::Date() );
-#endif
-        Tprintf( fmt , args... );
-
-#ifdef _WIN32
-        Tprintf( "\r\n" );
-#else
-        Tprintf( "\033[0;31m\r\n" );
-#endif    
+        Tprintf( fmt, args... );
+        Tprintf( "\r\n" ); 
     }
 
     // print message with normal channel

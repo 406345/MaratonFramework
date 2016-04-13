@@ -27,28 +27,29 @@ limitations under the License.
 #include "SystemInfo.h"
 #include "Timer.h"
 
+
 size_t Timer::Tick()
 {
     return MRT::SystemInfo::Time( );
 };
 
-char * Timer::Date()
+string Timer::Date()
 {
-    time_t timep;
-    time(&timep);
+    const time_t t = time(NULL);
+    //time(&timep);
+    struct tm* current_time = localtime(&t);
+  
+    char timer_str[512] = { 0 };
 
-    char * ret = asctime( gmtime( &timep ) );
-    char * pret = ret;
-
-    while ( *pret != '\0' )
-    {
-        if ( *pret == '\n' )
-        {
-            *pret = '\0';
-        }
-
-        pret++;
-    }
+    sprintf( timer_str , 
+             "%d-%d-%d %d:%d:%d" , 
+             current_time->tm_year + 1900,
+             current_time->tm_mon + 1,
+             current_time->tm_mday,
+             current_time->tm_hour,
+             current_time->tm_min,
+             current_time->tm_sec);
+    string ret = string( timer_str );
 
     return ret;
 };

@@ -139,9 +139,9 @@ void Listener::uv_read_callback( uv_stream_t * stream ,
     {
         //LOG_DEBUG_UV( nread );
         session->error_.Code( nread );
-        session->error_.Message( uv_strerror(nread) );
+        session->error_.Message( uv_strerror( ( int ) nread ) );
 
-        uv_close( ( uv_handle_t* ) &session->uv_tcp_ , 
+        uv_close( ( uv_handle_t* ) &session->uv_tcp_ ,
                   Listener::uv_close_callback );
         delete buf->base;
         return;

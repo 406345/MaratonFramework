@@ -38,38 +38,53 @@ class Logger
 {
 public:
 
-    // print message with sys channel
+    // Print message with sys channel
     // @fmt  : format, using % to indicate a parameter, not %d or something else.
     // @args : parameter values
     template<typename ...Types>
     static void Sys( const char* fmt, Types... args)
     {
-        Tprintf( "[%] ", Timer::Date() );
+        Tprintf( "% [SYSTEM] ", Timer::Date() );
         Tprintf( fmt, args... );
         Tprintf( "\r\n" );
     }
 
-    // print message with error channel
+    // Print message with error channel
     // @fmt  : format, using % to indicate a parameter, not %d or something else.
     // @args : parameter values
     template<typename ...Types>
     static void Error( const char* fmt, Types... args )
     { 
-        Tprintf( "[%] ", Timer::Date() );
+        Tprintf( "% [ERROR ] ", Timer::Date() );
         Tprintf( fmt, args... );
         Tprintf( "\r\n" ); 
     }
 
-    // print message with normal channel
+    // Print message with normal channel
     // @fmt  : format, using % to indicate a parameter, not %d or something else.
     // @args : parameter values
     template<typename ...Types>
     static void Log( const char* fmt, Types... args )
     { 
-        Tprintf( "[%] ", Timer::Date() );
+        Tprintf( "% [INFO  ] ", Timer::Date() );
         Tprintf( fmt , args... );
         Tprintf( "\r\n" );
     }
+
+    // Print message with debug channel
+    // !!!! This channel will be disabled in release version
+    // @fmt  : format, using % to indicate a parameter, not %d or something else.
+    // @args : parameter values
+    template<typename ...Types>
+    static void Debug( const char* fmt, Types... args )
+    { 
+#ifdef _DEBUG
+        Tprintf( "% [DEBUG ] ", Timer::Date() );
+        Tprintf( fmt , args... );
+        Tprintf( "\r\n" );
+#endif
+    }
+
 
 private:
 

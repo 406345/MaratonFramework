@@ -18,9 +18,9 @@ limitations under the License.
 ***********************************************************************************/
 
 /***********************************************************************************
-* Description   : 
-* Creator       : 
-* Date          : 
+* Description   :
+* Creator       :
+* Date          :
 * Modifed       : When      | Who       | What
 ***********************************************************************************/
 
@@ -42,33 +42,33 @@ public:
     // @fmt  : format, using % to indicate a parameter, not %d or something else.
     // @args : parameter values
     template<typename ...Types>
-    static void Sys( const char* fmt, Types... args)
+    static void Sys( const char* fmt , Types... args )
     {
-        Tprintf( "% [SYSTEM] ", Timer::Date() );
-        Tprintf( fmt, args... );
-        Tprintf( "\r\n" );
+        Tprintf( std::clog , "% [SYSTEM] " , Timer::Date() );
+        Tprintf( std::clog , fmt , args... );
+        Tprintf( std::clog , "\r\n" );
     }
 
     // Print message with error channel
     // @fmt  : format, using % to indicate a parameter, not %d or something else.
     // @args : parameter values
     template<typename ...Types>
-    static void Error( const char* fmt, Types... args )
-    { 
-        Tprintf( "% [ERROR] ", Timer::Date() );
-        Tprintf( fmt, args... );
-        Tprintf( "\r\n" ); 
+    static void Error( const char* fmt , Types... args )
+    {
+        Tprintf( std::cerr , "% [ERROR] " , Timer::Date() );
+        Tprintf( std::cerr , fmt , args... );
+        Tprintf( std::cerr ,"\r\n" );
     }
 
     // Print message with normal channel
     // @fmt  : format, using % to indicate a parameter, not %d or something else.
     // @args : parameter values
     template<typename ...Types>
-    static void Log( const char* fmt, Types... args )
-    { 
-        Tprintf( "% [INFO] ", Timer::Date() );
-        Tprintf( fmt , args... );
-        Tprintf( "\r\n" );
+    static void Log( const char* fmt , Types... args )
+    {
+        Tprintf( std::clog , "% [INFO] " , Timer::Date() );
+        Tprintf( std::clog , fmt , args... );
+        Tprintf( std::clog , "\r\n" );
     }
 
     // Print message with debug channel
@@ -76,42 +76,42 @@ public:
     // @fmt  : format, using % to indicate a parameter, not %d or something else.
     // @args : parameter values
     template<typename ...Types>
-    static void Debug( const char* fmt, Types... args )
-    { 
+    static void Debug( const char* fmt , Types... args )
+    {
 #ifdef _DEBUG
-        Tprintf( "% [DEBUG] ", Timer::Date() );
-        Tprintf( fmt , args... );
-        Tprintf( "\r\n" );
+        Tprintf( std::clog ,"% [DEBUG] " , Timer::Date() );
+        Tprintf( std::clog , fmt , args... );
+        Tprintf( std::clog ,"\r\n" );
 #endif
     }
 
 
 private:
 
-    Logger( )
+    Logger()
     {
     };
-    ~Logger( )
+    ~Logger()
     {
     };
 
-    static void Tprintf( const char* format ) // base function
+    static void Tprintf( std::ostream & stream , const char* format ) // base function
     {
-        std::cout << format;
+        stream << format;
     }
 
     template<typename T , typename... Targs>
-    static void Tprintf( const char* format , T value , Targs... Fargs ) // recursive variadic function
+    static void Tprintf( std::ostream & stream , const char* format , T value , Targs... Fargs ) // recursive variadic function
     {
         for ( ; *format != '\0'; format++ )
         {
             if ( *format == '%' )
             {
-                std::cout << value;
-                Tprintf( format + 1 , Fargs... ); // recursive call
+                stream << value;
+                Tprintf( stream , format + 1 , Fargs... ); // recursive call
                 return;
             }
-            std::cout << *format;
+            stream << *format;
         }
     }
 };

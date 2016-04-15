@@ -19,8 +19,8 @@ limitations under the License.
 
 /***********************************************************************************
 * Description   : DO NOT use DEBUG marcoes in release version!
-* Creator       : shubo yang 
-* Date          : 
+* Creator       : shubo yang
+* Date          :
 * Modifed       : When      | Who       | What
 ***********************************************************************************/
 
@@ -31,7 +31,7 @@ limitations under the License.
 #include "Logger.h"
 
 // Cast values defination
-#define MAX_CIRCLE_BUFFER_SIZE  1024*1024*5
+#define MAX_CIRCLE_BUFFER_SIZE  1024 * 1024 * 10
 #define MAX_PATH_LEN            1024
 #define MAX_CONNECTION_SIZE     2048
 #define MAX_UINT                0xFFFFFFFF
@@ -73,7 +73,7 @@ limitations under the License.
 #define make_sptr(__t__,...) std::make_shared< __t__ >(__VA_ARGS__)
 #define move_ptr(__v__) std::move(__v__)
 #define scast static_cast
- 
+
 
 #endif // !MRT_MACRO_H_
 

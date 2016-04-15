@@ -36,6 +36,14 @@ CircleBuffer::CircleBuffer()
     this->used_len_ = 0;
 }
 
+CircleBuffer::CircleBuffer( size_t size )
+{
+    this->circle_buffer_ = new char[size];
+
+    this->available_len_ = size;
+    this->used_len_ = 0;
+}
+
 CircleBuffer::~CircleBuffer()
 {
     if ( this->circle_buffer_ != nullptr )

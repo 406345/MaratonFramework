@@ -41,6 +41,9 @@ public:
     // Default constructure
     CircleBuffer ( );
 
+    // Constructure with buffer size
+    CircleBuffer ( size_t size );
+
     // Default destructure
     ~CircleBuffer( );
 

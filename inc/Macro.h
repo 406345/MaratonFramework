@@ -31,7 +31,7 @@ limitations under the License.
 #include "Logger.h"
 
 // Cast values defination
-#define MAX_CIRCLE_BUFFER_SIZE  1024 * 1024 * 10
+#define MAX_CIRCLE_BUFFER_SIZE  1024 * 1024 * 20
 #define MAX_PATH_LEN            1024
 #define MAX_CONNECTION_SIZE     2048
 #define MAX_UINT                0xFFFFFFFF

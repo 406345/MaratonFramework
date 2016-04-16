@@ -22,6 +22,7 @@ public:
 
     uv_loop_t* Event();
     void       Wait();
+    void       RunOnce( );
 
 private:
 

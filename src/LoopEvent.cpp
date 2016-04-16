@@ -22,5 +22,10 @@ void LoopEvent::Wait()
     uv_run( &this->loop_ , UV_RUN_DEFAULT );
 }
 
+void LoopEvent::RunOnce( )
+{
+    uv_run( &this->loop_ , UV_RUN_ONCE );
+}
+
 NS_MARATON_END
 

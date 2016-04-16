@@ -45,3 +45,4 @@ limitations under the License.
 #include "Connector.h"
 #include "Session.h"
 #include "Error.h"
+#include "FileSystem.h"

@@ -34,13 +34,51 @@
 //using namespace MRT;
 //using namespace std;
 //
-//int main()
+//int main( )
 //{
-//    Logger::Log( "Logger string" );
-//    Logger::Debug( "Debug string" );
-//    Logger::Sys( "System string" );
-//    Logger::Error( "Error string" );
 //
-//    scanf( "" );
+//    MRT::FileSystem fs( Maraton::Instance( )->Event( ) );
+//    fs.Open( "D:\\AAA.txt" , [ ] ( long long status , FileSystem* fs )
+//    {
+//        if ( status < 0 )
+//        {
+//            Logger::Log( "open error  %" , fs->ErrorStr(status) );
+//            return;
+//        }
+//        auto size = fs->Tell( );
+//        Logger::Log( "file size %" , size );
+//
+//        fs->Read( 2 , [ ] ( long long status , FileSystem* fs , sptr<Buffer> buf )
+//        {
+//            if ( status > 0 )
+//            {
+//                Logger::Log( "file  %" , buf->Data() );
+//            }
+//        } );
+//
+//        fs->Read( 2 , [ ] ( long long status , FileSystem* fs , sptr<Buffer> buf )
+//        {
+//           if ( status > 0 )
+//            {
+//                Logger::Log( "file  %" , buf->Data() );
+//            }
+//        } );
+//
+//        fs->Read( 2 , [ ] ( long long status , FileSystem* fs , sptr<Buffer> buf )
+//        {
+//            if ( status > 0 )
+//            {
+//                Logger::Log( "file  %" , buf->Data() );
+//            }
+//        } );
+//
+//        fs->Write( make_sptr( Buffer , "XXXX" ) , [ ] ( long long status , FileSystem* fs)
+//        { 
+//            Logger::Log( "write file result  %" , status );
+//        } );
+//    } );
+//
+//    Maraton::Instance( )->Run( );
+//
 //    return 0;
 //}

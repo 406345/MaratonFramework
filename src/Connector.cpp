@@ -109,10 +109,14 @@ void Connector::uv_read_callback( uv_stream_t * stream , ssize_t nread , const u
     if ( nread < 0 )
     {
         //LOG_DEBUG_UV( nread );
+
         session->error_.Code( nread );
         session->error_.Message( uv_strerror( ( int ) nread ) );
 
         uv_close( ( uv_handle_t* ) &session->uv_tcp_ , Connector::uv_close_callback );
+        
+        delete buf->base;
+        
         return;
     }
 

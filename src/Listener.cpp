@@ -119,7 +119,7 @@ void Listener::uv_alloc_callback( uv_handle_t * handle ,
                                   uv_buf_t * buf )
 {
     buf->base = new char[suggested_size];
-    buf->len  = suggested_size;
+    buf->len  = (unsigned long) suggested_size;
 }
 
 void Listener::uv_read_callback( uv_stream_t * stream , 

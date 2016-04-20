@@ -70,7 +70,7 @@ int FileSystem::Read( size_t offset , size_t size , fs_callback_read_t cb )
 
     token->buffer_ = new uv_buf_t( );
     token->buffer_->base = new char[size]{0};
-    token->buffer_->len  = size;
+    token->buffer_->len  = (unsigned long)size;
 
     int hresult = uv_fs_read( this->loop_event_->Event( ) ,
                               token->req_ ,
@@ -107,7 +107,7 @@ int FileSystem::Write( size_t offset , sptr<Buffer> buffer , fs_callback_write_t
 
     token->buffer_ = new uv_buf_t( );
     token->buffer_->base = new char[buffer->Size()]{0};
-    token->buffer_->len  = buffer->Size( );
+    token->buffer_->len  = (unsigned long)buffer->Size( );
 
     memcpy( (void*)token->buffer_->base ,
             buffer->Data( ) ,

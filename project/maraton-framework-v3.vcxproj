@@ -77,10 +77,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>..\inc;..\3rd;$(IncludePath)</IncludePath>
-    <ReferencePath>..\lib;$(ReferencePath)</ReferencePath>
+    <ReferencePath>$(ReferencePath)</ReferencePath>
     <LibraryPath>..\lib;$(LibraryPath)</LibraryPath>
     <SourcePath>..\src;$(SourcePath)</SourcePath>
-    <ExecutablePath>..\lib;$(ExecutablePath)</ExecutablePath>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -113,7 +113,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libuv.lib;advapi32.lib;iphlpapi.lib;psapi.lib;shell32.lib;userenv.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>advapi32.lib;iphlpapi.lib;psapi.lib;shell32.lib;userenv.lib;ws2_32.lib;libuv.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy $(OutDir)MaratonFramework.lib $(SolutionDir)..\lib\

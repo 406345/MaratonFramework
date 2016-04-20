@@ -93,7 +93,7 @@ void Connector::uv_connected_callback( uv_connect_t * req , int status )
 void Connector::uv_alloc_callback( uv_handle_t * handle , size_t suggested_size , uv_buf_t * buf )
 {
     buf->base = new char[suggested_size];
-    buf->len  = suggested_size;
+    buf->len  = (unsigned long) suggested_size;
 }
 
 void Connector::uv_read_callback( uv_stream_t * stream , ssize_t nread , const uv_buf_t * buf )

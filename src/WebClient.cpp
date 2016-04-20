@@ -281,7 +281,7 @@ void WebClient::uv_send_request( WebClientRequestToken* token )
     write_token->writer         = new uv_write_t();
     write_token->buffer         = new uv_buf_t();
     write_token->buffer->base   = new char[header_buf->Size() + 1] { 0 };
-    write_token->buffer->len    = header_buf->Size();
+    write_token->buffer->len    = (unsigned long)header_buf->Size();
     write_token->writer->data   = write_token;
     write_token->session        = token;
 
@@ -303,7 +303,7 @@ void WebClient::uv_send_request( WebClientRequestToken* token )
         write_token->writer         = new uv_write_t( );
         write_token->buffer         = new uv_buf_t( );
         write_token->buffer->base   = new char[body_buf->Size( ) + 1] { 0 };
-        write_token->buffer->len    = body_buf->Size( );
+        write_token->buffer->len    = (unsigned long)body_buf->Size( );
         write_token->writer->data   = write_token;
         write_token->session        = token;
 
@@ -411,7 +411,7 @@ void WebClient::uv_alloc_callback( uv_handle_t * handle ,
                                    uv_buf_t * buf )
 {
     buf->base = new char[suggested_size];
-    buf->len  = suggested_size;
+    buf->len  = (unsigned long)suggested_size;
 }
 
 void WebClient::uv_read_callback( uv_stream_t * stream ,

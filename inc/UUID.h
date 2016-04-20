@@ -26,26 +26,28 @@ limitations under the License.
 #ifndef UUID_HPP_
 #define UUID_HPP_
 
+#include <Singleton.h>
 #include <random>
 #include <string>
+#include <time.h>
 
 #include "Macro.h"
 
 NS_MARATON_BEGIN
 
 // @Description : UUID creation class
-class UUID
+class UUID:public Singleton<UUID>
 {
 public:
 
     // Create a new UUID
-    static std::string Create() 
+    std::string Create() 
     {
         std::string ret = "";
         //char buf[kUUIDLength];
         const char *c = "yhgenomics";
         char num_buf[8] = { 0 };
-
+        
         for (int n = 0; n < 16; ++n )
         {
             int seed = rand() % 255;
@@ -64,9 +66,9 @@ public:
 
 private:
 
-    const static int kUUIDLength = 37;
-
-    UUID() {};
+    const int kUUIDLength = 37;
+    friend Singleton<UUID>;
+    UUID() { srand( ( unsigned int )time( NULL ) ); };
     ~UUID() {};
 };
 

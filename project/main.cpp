@@ -37,10 +37,13 @@
 //int main( int argc , char * argv[] )
 //{
 //    MRT::WebClient wc;
-//    wc.Get( "http://www.baidu.com" , [ ] (uptr<HTTPResponse> rep)
+//    wc.Get( "http://10.0.0.234:80/v1/file?path=/fastq/GCP15_GTACGC_L002_R1_001.fastq" , [ ] (uptr<HTTPResponse> rep)
 //    {
-//    
-//    
+//        if ( rep->Finish() && rep->ContentLength() > 0)
+//        {
+//               auto content = rep->Content();
+//               printf( "%s" ,  content->Data() );
+//        }
 //    } );
 //
 //    Maraton::Instance( )->Run( );

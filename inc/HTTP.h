@@ -58,6 +58,7 @@ public:
 
     std::string Domain       ();
     std::string Path         ();
+    std::string PathWithArg  ();
     std::string Protocol     ();
     int         Port         ();
     string      Parameter    ( string name );

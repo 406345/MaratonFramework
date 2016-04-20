@@ -49,6 +49,18 @@ std::string Url::Path()
     return this->path_;
 }
 
+std::string Url::PathWithArg()
+{
+    string ret = this->path_ + "?";
+
+    for ( auto & kv : this->parameter_ )
+    {
+        ret += kv.first + "=" + kv.second + "&";
+    }
+
+    return ret;
+}
+
 std::string Url::Protocol()
 {
     return this->protocol_;
@@ -130,6 +142,7 @@ void Url::Parse( std::string purl )
                 {
                     if ( url[index] == '?' )
                     {
+                        this->path_ += '?';
                         state = 4;
                         this->tmp_ = "";
                         break;
@@ -188,7 +201,7 @@ HTTPRequest::HTTPRequest( std::string url , std::string method )
     Url url_parse( url );
 
     this->domain_ = url_parse.Domain();
-    this->url_    = url_parse.Path();
+    this->url_    = url_parse.PathWithArg();
     this->port_   = url_parse.Port();
 
     if ( this->port_ == 0 )

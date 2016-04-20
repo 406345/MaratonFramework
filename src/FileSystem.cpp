@@ -1,5 +1,6 @@
 #include <FileSystem.h>
 #include <Maraton.h>
+#include <string.h>
 
 NS_MARATON_BEGIN
 

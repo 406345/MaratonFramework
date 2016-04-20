@@ -108,7 +108,7 @@ int FileSystem::Write( size_t offset , sptr<Buffer> buffer , fs_callback_write_t
     token->buffer_->base = new char[buffer->Size()]{0};
     token->buffer_->len  = buffer->Size( );
 
-    memcpy( token->buffer_->base ,
+    memcpy( (void*)token->buffer_->base ,
             buffer->Data( ) ,
             buffer->Size( ) );
 

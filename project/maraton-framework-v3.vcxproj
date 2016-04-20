@@ -22,7 +22,7 @@
     <ProjectGuid>{5529B5DD-B4D6-4A20-9A1D-12A783BBF9E7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>maratonframeworkv3</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.10240.0</WindowsTargetPlatformVersion>
     <ProjectName>MaratonFramework</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

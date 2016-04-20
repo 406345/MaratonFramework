@@ -64,8 +64,9 @@ string Url::Parameter( string name )
     return this->parameter_[name];
 }
 
-void Url::Parse( std::string url )
+void Url::Parse( std::string purl )
 {
+    std::string url = this->UrlDecode( purl );
     // http://blog.csdn.net/is2120/article/details/6251412
     int state = 0;
     int index = 0;
@@ -297,6 +298,7 @@ void HTTPRequest::Parse( uptr<Buffer> data )
                 {
                     if ( *pdata == ' ' )
                     {
+
                         this->parse_state_ = ParseState::kProtocol;
                         break;
                     }

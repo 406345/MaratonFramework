@@ -142,7 +142,6 @@ void Url::Parse( std::string purl )
                 {
                     if ( url[index] == '?' )
                     {
-                        this->path_ += '?';
                         state = 4;
                         this->tmp_ = "";
                         break;

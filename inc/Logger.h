@@ -108,8 +108,8 @@ private:
             if ( *format == '%' )
             {
                 stream << value;
-                Tprintf( stream , format + 1 , Fargs... ); // recursive call
-                return;
+                // recursive call;
+                return Tprintf( stream , format + 1 , Fargs... ); 
             }
             stream << *format;
         }

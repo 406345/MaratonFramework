@@ -379,7 +379,7 @@ void HTTPRequest::Parse( uptr<Buffer> data )
                     else if ( this->content_ == nullptr )
                     {
                         this->content_ = make_uptr( MRT::Buffer , this->content_length_ );
-                    }
+                    }     
 
                     this->content_->Push( pdata ,
                                           data->Size() - ( pdata - ori_data ) );

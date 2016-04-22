@@ -18,9 +18,9 @@ limitations under the License.
 ***********************************************************************************/
 
 /***********************************************************************************
-* Description   : 
-* Creator       : 
-* Date          : 
+* Description   :
+* Creator       :
+* Date          :
 * Modifed       : When      | Who       | What
 ***********************************************************************************/
 
@@ -32,7 +32,7 @@ limitations under the License.
 
 NS_MARATON_BEGIN
 
-Buffer::Buffer( )
+Buffer::Buffer()
 {
     this->data_  = nullptr;
     this->pdata_ = this->data_;
@@ -51,14 +51,17 @@ Buffer::Buffer( size_t size )
         return;
     }
 
-    this->data_  = new char[size] { 0 };
+    this->data_  = new char[size]
+    {
+        0
+    };
     this->pdata_ = this->data_;
     this->size_  = size;
 }
 
 Buffer::Buffer( std::string string )
 {
-    this->Data( string.c_str( ) , string.size( ) );
+    this->Data( string.c_str() , string.size() );
 }
 
 Buffer::Buffer( const char * data , size_t size )
@@ -114,7 +117,7 @@ char Buffer::operator[]( const size_t index )
     return *( this->data_ + index );
 }
 
-Buffer::~Buffer( )
+Buffer::~Buffer()
 {
     SAFE_DELETE( this->data_ );
 }
@@ -134,7 +137,7 @@ Buffer::Buffer( Buffer && buffer )
     buffer.size_ = 0;
 }
 
-char * Buffer::Data( )
+char * Buffer::Data()
 {
     return this->data_;
 }
@@ -158,7 +161,10 @@ void Buffer::Data( const char * value , size_t size )
     }
 
 
-    this->data_     = new char[size] { 0 };
+    this->data_     = new char[size]
+    {
+        0
+    };
     this->pdata_    = this->data_;
 
     memcpy( this->data_ , value , size );
@@ -169,30 +175,26 @@ void Buffer::Push( const char * data , size_t len )
     if ( this->data_ == nullptr )
         return;
 
-    int delta = this->size_ - ( int ) ( this->pdata_ - this->data_ );
+    int delta = ( int ) ( this->size_ - ( int ) ( this->pdata_ - this->data_ ) + 1 );
 
-    if ( delta > len )
+    if ( delta >= len )
     {
         memcpy( this->pdata_ , data , len );
+        this->pdata_ += len;
     }
-    else if( delta > 0 )
+    else if ( delta > 0 )
     {
         memcpy( this->pdata_ , data , delta );
+        this->pdata_ += delta;
     }
-    else if( delta < 0 )
-    {
-        delta = 0;
-    }
-
-    this->pdata_+=delta;
 }
 
-void Buffer::Zero( )
+void Buffer::Zero()
 {
-    memset( this->data_ , (int)this->size_ , 0 );
+    memset( this->data_ , ( int )this->size_ , 0 );
 }
 
-void Buffer::ClearUp( )
+void Buffer::ClearUp()
 {
     SAFE_DELETE( this->data_ );
     this->size_ = 0;

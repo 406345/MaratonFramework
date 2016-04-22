@@ -35,10 +35,24 @@
 //using namespace std;
 //
 //int main( int argc , char * argv[] )
-//{
-//    
-//    Logger::Log( "ABCDEF" );
-//    Logger::Log( "ABCDEF%","GHIJ" );
+//{ 
+//    string t1 = "POST /task/deliver HTTP/1.1\r\nHost: 10.0.0.70:91\r\nContent-Length: 6\r\nExpect: 100-continue\r\n\r\n";
+//    string t2 = "11";
+//    string t3 = "22";
+//    string t4 = "33";
+//
+//
+//    HTTPRequest req;
+//    req.Parse( make_uptr( Buffer , t1 ) );
+//    req.Parse( make_uptr( Buffer , t2 ) );
+//    req.Parse( make_uptr( Buffer , t3 ) );
+//    req.Parse( make_uptr( Buffer , t4 ) );
+//
+//    auto finish = req.Finish();
+//
+//    auto cs = req.Content()->Size();
+//    auto content = string( req.Content()->Data() , cs );
+//
 //
 //    Maraton::Instance( )->Run( );
 //

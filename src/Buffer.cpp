@@ -169,18 +169,19 @@ void Buffer::Push( const char * data , size_t len )
     if ( this->data_ == nullptr )
         return;
 
-    size_t delta = this->size_ - ( size_t ) ( this->pdata_ - this->data_ );
+    size_t delta = this->size_ - ( size_t ) ( this->pdata_ - this->data_ ) + 1;
 
-    if ( delta > len )
+    if ( delta >= len )
     {
         memcpy( this->pdata_ , data , len );
+        this->pdata_ += len;
     }
     else
     {
         memcpy( this->pdata_ , data , delta );
+        this->pdata_ += delta;
     }
 
-    this->pdata_+=delta;
 }
 
 void Buffer::Zero( )

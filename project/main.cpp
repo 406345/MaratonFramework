@@ -36,9 +36,25 @@
 //
 //int main( int argc , char * argv[] )
 //{
+//    string t0 = "POST /task/deliver HTTP/1.1\r\nHost: 10.0.0.70:91\r\nContent-Length: 5\r\nExpect: 100-continue\r\n\r\n";
+//
+//    string t01 = "11";
+//    string t1 = "2";
+//    string t2 = "33";
+//
+//    auto tsize = t01.size() + t1.size() + t2.size();
+//
+//
+//    HTTPRequest req;
+//
+//    req.Parse( make_uptr( Buffer , t0 ) );
+//    req.Parse( make_uptr( Buffer , t01 ) );
+//    req.Parse( make_uptr( Buffer , t1 ) );
+//    req.Parse( make_uptr( Buffer , t2 ) );
 //    
-//    Logger::Log( "ABCDEF" );
-//    Logger::Log( "ABCDEF%","GHIJ" );
+//
+//    auto cs =  req.Content()->Size();
+//    auto content = string( req.Content()->Data() , cs );
 //
 //    Maraton::Instance( )->Run( );
 //

@@ -212,7 +212,7 @@ HTTPRequest::HTTPRequest( std::string url , std::string method )
 }
 
 HTTPRequest::HTTPRequest()
-{
+{ 
 }
 
 HTTPRequest::~HTTPRequest()
@@ -298,7 +298,7 @@ void HTTPRequest::Parse( uptr<Buffer> data )
             case ParseState::kMethod:
                 {
                     if ( *pdata == ' ' )
-                    {
+                    { 
                         this->parse_state_ = ParseState::kUrl;
                         break;
                     }
@@ -325,6 +325,7 @@ void HTTPRequest::Parse( uptr<Buffer> data )
                         ++pdata;
                         this->parse_state_ = ParseState::kHeadKey;
                     }
+
                 }
                 break;
             case ParseState::kHeadKey:
@@ -335,6 +336,7 @@ void HTTPRequest::Parse( uptr<Buffer> data )
                         this->parse_state_ = ParseState::kContent;
                         if ( !this->header_["Content-Length"].empty() )
                         {
+                            content_recv_len_     = 0;
                             this->content_length_ =
                                 atoll( this->header_["Content-Length"].c_str() );
                         }
@@ -381,6 +383,9 @@ void HTTPRequest::Parse( uptr<Buffer> data )
 
                     this->content_->Push( pdata ,
                                           data->Size() - ( pdata - ori_data ) );
+
+                    content_recv_len_ += data->Size() - ( pdata - ori_data );
+
                     return;
                 }
                 break;
@@ -445,7 +450,7 @@ bool HTTPRequest::Finish()
         return false;
     }
 
-    return this->content_->Size() == this->content_length_;
+    return content_recv_len_ == this->content_length_;
 }
 
 sptr<Url> HTTPRequest::Uri()

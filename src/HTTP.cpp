@@ -381,12 +381,10 @@ void HTTPRequest::Parse( uptr<Buffer> data )
                         this->content_ = make_uptr( MRT::Buffer , this->content_length_ );
                     }
 
-                    size_t data_size = data->Size() - ( pdata - ori_data );
-
                     this->content_->Push( pdata ,
-                                          data_size );
+                                          data->Size() - ( pdata - ori_data ) );
 
-                    content_recv_len_ += data_size;
+                    content_recv_len_ += data->Size() - ( pdata - ori_data );
 
                     return;
                 }

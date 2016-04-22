@@ -677,6 +677,7 @@ void HTTPResponse::Parse( uptr<Buffer> data )
                             this->content_length_ = atoll( this->tmp_value_.c_str() );
                             this->content_ = make_uptr( Buffer , this->content_length_ );
                             this->content_->Zero();
+                            this->content_recv_len_ = 0;
                         }
 
                         this->tmp_key_     = "";
@@ -716,6 +717,8 @@ void HTTPResponse::Parse( uptr<Buffer> data )
 
                         this->content_->Push( pdata ,
                                               data->Size() - size );
+
+                        this->content_recv_len_ +=  data->Size() - size;
                     }
                     return;
                 }
@@ -742,7 +745,7 @@ bool HTTPResponse::Finish()
         return false;
     }
 
-    return this->content_->Size() == this->content_length_;
+    return this->content_recv_len_ == this->content_length_;
 }
 
 NS_MARATON_END

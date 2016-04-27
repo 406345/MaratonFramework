@@ -40,7 +40,7 @@ Session::Session( )
 {
     static size_t session_id = 10000;
     this->session_id_ = session_id;
-    session_id = ( session_id + 1 ) % 0xffffffffffffffffui64;
+    session_id = ( session_id + 1 ) % 0xffffffffffffffff;
 
     is_connected_ = true;
 }

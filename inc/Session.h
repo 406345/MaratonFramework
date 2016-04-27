@@ -48,13 +48,12 @@ public:
 
     // Close the session
     // This function will close the network connection
-    void  Close    ();
-    Error LastError() { return this->error_; };
+    void   Close    ();
+    Error  LastError() { return this->error_; };
+    size_t SessionId() { return this->session_id_; };
 
     PP_DEF( std::string , ip_address )
     PP_DEF( int , port )
-
-
 
 protected:
     
@@ -93,13 +92,14 @@ private:
         Session *           session;
     };
 
-    uv_tcp_t    uv_tcp_         = { 0 };
-    std::string ip_address_     = "";
-    int         port_           = 0;
-    bool        is_connected_   = false;
-    Error       error_;
+    static size_t session_id_;
 
-    static void uv_write_callback ( uv_write_t * req, int status );
+    uv_tcp_t      uv_tcp_         = { 0 };
+    std::string   ip_address_     = "";
+    int           port_           = 0;
+    bool          is_connected_   = false;
+    Error         error_;
+    static void   uv_write_callback ( uv_write_t * req, int status );
 
     friend class Operator;
     friend class Listener;

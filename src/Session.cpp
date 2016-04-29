@@ -34,13 +34,11 @@ limitations under the License.
 
 NS_MARATON_BEGIN
 
-size_t Session::session_id_ = 0;
-
 Session::Session( )
 {
     static size_t session_id = 10000;
     this->session_id_ = session_id;
-    session_id = ( session_id + 1 ) % 0xffffffffffffffff;
+    session_id = ( session_id + 1 ) % 0xfffffffffffffff;
 
     is_connected_ = true;
 }

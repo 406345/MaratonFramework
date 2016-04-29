@@ -44,9 +44,9 @@ public:
     template<typename ...Types>
     static void Sys( const char* fmt , Types... args )
     {
-        Tprintf( std::clog , "% [SYSTEM] " , Timer::Date() );
-        Tprintf( std::clog , fmt , args... );
-        Tprintf( std::clog , "\r\n" );
+        Tprintf( std::cout , "% [SYSTEM] " , Timer::Date() );
+        Tprintf( std::cout , fmt , args... );
+        Tprintf( std::cout , "\r\n" );
     }
 
     // Print message with error channel
@@ -66,9 +66,9 @@ public:
     template<typename ...Types>
     static void Log( const char* fmt , Types... args )
     {
-        Tprintf( std::clog , "% [INFO] " , Timer::Date() );
-        Tprintf( std::clog , fmt , args... );
-        Tprintf( std::clog , "\r\n" );
+        Tprintf( std::cout , "% [INFO] " , Timer::Date() );
+        Tprintf( std::cout , fmt , args... );
+        Tprintf( std::cout , "\r\n" );
     }
 
     // Print message with debug channel
@@ -79,9 +79,9 @@ public:
     static void Debug( const char* fmt , Types... args )
     {
 #ifdef _DEBUG
-        Tprintf( std::clog ,"% [DEBUG] " , Timer::Date() );
-        Tprintf( std::clog , fmt , args... );
-        Tprintf( std::clog ,"\r\n" );
+        Tprintf( std::cout ,"% [DEBUG] " , Timer::Date() );
+        Tprintf( std::cout , fmt , args... );
+        Tprintf( std::cout ,"\r\n" );
 #endif
     }
 

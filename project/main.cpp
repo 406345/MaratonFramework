@@ -34,27 +34,64 @@
 //using namespace MRT;
 //using namespace std;
 //
+//uv_thread_t pthread;
+//
+//class MasterConnector :
+//    public Connector
+//{
+//public:
+//
+//    MasterConnector ( string ip , int port )
+//        : Connector( ip , port )
+//    {
+//
+//    }
+//    ~MasterConnector()
+//    {
+//
+//    }
+//
+//protected:
+//
+//    virtual Session * CreateSession    () override
+//    {
+//        return new Session();
+//    };
+//
+//    // Callback when a session is created
+//    virtual void      OnSessionOpen   ( Session * session ) override
+//    {
+//
+//    };
+//
+//    // Callback after a session is closed
+//    virtual void      OnSessionClose  ( Session * session ) override
+//    {
+//        SAFE_DELETE( session );
+//    };
+//};
+//
+//int t = 0;
 //int main( int argc , char * argv[] )
-//{ 
-//    string t1 = "POST /task/deliver HTTP/1.1\r\nHost: 10.0.0.70:91\r\nContent-Length: 6\r\nExpect: 100-continue\r\n\r\n";
-//    string t2 = "11";
-//    string t3 = "22";
-//    string t4 = "33";
+//{
+//    Thread thr( [ ] ( void*data )
+//    {
+//        while ( true )
+//        {
+//            Maraton::Instance()->Run();
+//        }
+//    } , nullptr );
 //
+//    scanf( "%d" , &t );
 //
-//    HTTPRequest req;
-//    req.Parse( make_uptr( Buffer , t1 ) );
-//    req.Parse( make_uptr( Buffer , t2 ) );
-//    req.Parse( make_uptr( Buffer , t3 ) );
-//    req.Parse( make_uptr( Buffer , t4 ) );
+//    Syncer sync( Maraton::Instance()->Event() , [ ] ()
+//    {
+//        auto cnn = make_sptr( MasterConnector , "10.0.0.11" , 112 );
+//        Maraton::Instance()->Regist( cnn );
+//        Logger::Log( "async_cb" );
 //
-//    auto finish = req.Finish();
+//    } );
 //
-//    auto cs = req.Content()->Size();
-//    auto content = string( req.Content()->Data() , cs );
-//
-//
-//    Maraton::Instance( )->Run( );
-//
+//    scanf( "%d" , &t );
 //    return 0;
 //}

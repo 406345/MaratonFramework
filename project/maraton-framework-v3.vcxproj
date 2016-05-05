@@ -167,7 +167,9 @@ copy $(OutDir)MaratonFramework.pdb $(SolutionDir)..\lib\</Command>
     <ClCompile Include="..\src\Maraton.cpp" />
     <ClCompile Include="..\src\Operator.cpp" />
     <ClCompile Include="..\src\Session.cpp" />
+    <ClCompile Include="..\src\Syncer.cpp" />
     <ClCompile Include="..\src\SyncWorker.cpp" />
+    <ClCompile Include="..\src\Thread.cpp" />
     <ClCompile Include="..\src\Timer.cpp" />
     <ClCompile Include="..\src\WebClient.cpp" />
     <ClCompile Include="main.cpp" />
@@ -191,9 +193,11 @@ copy $(OutDir)MaratonFramework.pdb $(SolutionDir)..\lib\</Command>
     <ClInclude Include="..\inc\Operator.h" />
     <ClInclude Include="..\inc\Session.h" />
     <ClInclude Include="..\inc\Singleton.h" />
+    <ClInclude Include="..\inc\Syncer.h" />
     <ClInclude Include="..\inc\SyncWorker.h" />
     <ClInclude Include="..\inc\SysProcess.h" />
     <ClInclude Include="..\inc\SystemInfo.h" />
+    <ClInclude Include="..\inc\Thread.h" />
     <ClInclude Include="..\inc\Timer.h" />
     <ClInclude Include="..\inc\UUID.h" />
     <ClInclude Include="..\inc\WebClient.h" />

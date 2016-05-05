@@ -73,4 +73,24 @@ void Semaphore::Release( )
     uv_sem_post( &this->sem_ );
 }
 
+Signal::Signal()
+{
+    uv_rwlock_init( &this->locker_ );
+}
+
+Signal::~Signal()
+{
+    uv_rwlock_destroy( &this->locker_ );
+}
+
+void Signal::Wait()
+{
+    uv_rwlock_wrlock( &this->locker_ );
+}
+
+void Signal::Release()
+{
+    uv_rwlock_wrunlock( &this->locker_ );
+}
+
 NS_MARATON_END

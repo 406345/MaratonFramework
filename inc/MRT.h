@@ -46,3 +46,5 @@ limitations under the License.
 #include "Session.h"
 #include "Error.h"
 #include "FileSystem.h"
+#include "Thread.h"
+#include "Syncer.h"

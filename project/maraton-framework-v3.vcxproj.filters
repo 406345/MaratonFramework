@@ -55,6 +55,12 @@
     <ClCompile Include="..\src\FileSystem.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Thread.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Syncer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\inc\Connector.h">
@@ -127,6 +133,12 @@
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\inc\FileSystem.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\Thread.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\Syncer.h">
       <Filter>inc</Filter>
     </ClInclude>
   </ItemGroup>

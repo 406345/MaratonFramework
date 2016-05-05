@@ -32,6 +32,22 @@ limitations under the License.
 
 NS_MARATON_BEGIN
 
+class Signal
+{
+public :
+
+    Signal();
+    ~Signal();
+
+    void Wait();
+    void Release();
+
+private:
+
+    uv_rwlock_t locker_= { 0 };
+
+};
+
 // @Description : provide a mutex lock
 class Mutex
 {

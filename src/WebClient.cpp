@@ -262,6 +262,11 @@ void WebClient::QueryDns( uptr<WebClientRequestToken> t )
                             token->req_->Domain( ).c_str( ) ,
                             NULL ,
                             &token->addrinfo_ );
+
+    if ( r < 0 )
+    {
+        Logger::Error( "WebClient %" , uv_strerror(r) );
+    }
 }
 
 void WebClient::FillHeader( HTTPRequest * req )
@@ -316,7 +321,11 @@ void WebClient::uv_send_request( WebClientRequestToken* token )
                        write_token->buffer ,
                        1 ,
                        WebClient::uv_write_callback );
-        //LOG_DEBUG_UV( r );
+        
+        if ( r < 0 )
+        {
+            Logger::Error( "WebClient %" , uv_strerror(r) ); 
+        }
     }
 }
 
@@ -326,9 +335,7 @@ void WebClient::uv_process_resolved( uv_getaddrinfo_t * req ,
 {
     int result = 0;
     WebClientRequestToken *
-        token = scast<WebClientRequestToken*>( req->data );
-
-    
+        token = scast<WebClientRequestToken*>( req->data ); 
 
     if ( token == nullptr )
     {
@@ -338,7 +345,7 @@ void WebClient::uv_process_resolved( uv_getaddrinfo_t * req ,
 
     if ( status < 0 )
     {
-        //LOG_DEBUG_UV( status );
+        Logger::Error( "WebClient %" , uv_strerror(status) );
         token->InvokeCallback( nullptr );
         SAFE_DELETE( token );
         delete res;
@@ -367,7 +374,7 @@ void WebClient::uv_process_resolved( uv_getaddrinfo_t * req ,
                              WebClient::uv_connected_callback );
     if ( result < 0 )
     {
-        //LOG_DEBUG_UV( result );
+        Logger::Error( "WebClient %" , uv_strerror(result) );
         token->InvokeCallback( nullptr );
         SAFE_DELETE( token );
     }
@@ -380,7 +387,7 @@ void WebClient::uv_connected_callback( uv_connect_t * req , int status )
 
     if ( status < 0 )
     {
-        //LOG_DEBUG_UV( status );
+        Logger::Error( "WebClient %" , uv_strerror(status) );
         uv_close( ( uv_handle_t* ) &token->uv_tcp ,
                   WebClient::uv_close_callback );
         return;
@@ -400,7 +407,7 @@ void WebClient::uv_connected_callback( uv_connect_t * req , int status )
 
     if ( result < 0 )
     {
-        //LOG_DEBUG_UV( result );
+        Logger::Error( "WebClient %" , uv_strerror(result) );
         uv_close( ( uv_handle_t* ) &token->uv_tcp ,
                   WebClient::uv_close_callback );
     }
@@ -423,20 +430,20 @@ void WebClient::uv_read_callback( uv_stream_t * stream ,
 
     if ( token == nullptr )
     {
-        //LOG_DEBUG( "Session is nullptr!" );
+        delete buf->base ;
         return;
     }
 
     if ( nread < 0 )
     {
-        //LOG_DEBUG_UV( nread );
         delete buf->base ;
         uv_close( ( uv_handle_t* ) &token->uv_tcp ,
                   WebClient::uv_close_callback );
         return;
     }
 
-    token->rep_->Parse( make_uptr( Buffer , buf->base , nread ) );
+    if( nread > 0 )
+        token->rep_->Parse( make_uptr( Buffer , buf->base , nread ) );
 
     delete buf->base ;
 }
@@ -447,7 +454,6 @@ void WebClient::uv_write_callback( uv_write_t * req , int status )
     
     if( write_token == nullptr )
     {
-        //LOG_DEBUG( "write_token is nullptr!" );
         return;
     }
 

@@ -80,7 +80,7 @@ private:
 
     std::string UrlEncode( const std::string& szToEncode )
     { 
-        std::string src = szToEncode;
+        std::string src = string(szToEncode);
         char hex[] = "0123456789ABCDEF";
         string dst;
         for ( size_t i = 0; i < src.size(); ++i )
